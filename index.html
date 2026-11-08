@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manifest Rush: Catch the Concert | GeoGame</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+
+<body>
+
+    <!-- 1. ANA MENÜ -->
+    <section id="home-screen" class="screen active">
+
+        <div class="home-content">
+            <p class="subtitle">THE ULTIMATE GEOGAME EXPERIENCE</p>
+
+            <h1>MANIFEST<br>RUSH</h1>
+
+            <p class="description">
+                Choose your star. Explore the world.
+                Rule the stage!
+            </p>
+
+            <button id="start-btn" class="main-button">
+                START GAME
+            </button>
+
+            <button id="how-btn" class="secondary-button">
+                HOW TO PLAY
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- 2. KARAKTER SEÇME EKRANI -->
+    <section id="character-screen" class="screen">
+
+        <button id="back-home" class="back-button">
+            ← BACK
+        </button>
+
+        <div class="character-header">
+            <h2>CHOOSE YOUR STAR</h2>
+            <p>
+                Turneye hangi Manifest üyesiyle çıkacaksın?
+            </p>
+        </div>
+
+        <div class="character-container">
+
+            <div class="character-card"
+                 data-character="zoktay"
+                 style="--character-color:#3498ff">
+                <img src="assets/characters/zoktay.jpg"
+                     alt="Zoktay">
+                <h3>ZOKTAY</h3>
+            </div>
+
+            <div class="character-card"
+                 data-character="esin"
+                 style="--character-color:#ffd633">
+                <img src="assets/characters/esin.jpg"
+                     alt="Esin">
+                <h3>ESİN</h3>
+            </div>
+
+            <div class="character-card"
+                 data-character="mina"
+                 style="--character-color:#ff3556">
+                <img src="assets/characters/mina.jpg"
+                     alt="Mina">
+                <h3>MİNA</h3>
+            </div>
+
+            <div class="character-card"
+                 data-character="lidya"
+                 style="--character-color:#ff75bc">
+                <img src="assets/characters/lidya.jpg"
+                     alt="Lidya">
+                <h3>LİDYA</h3>
+            </div>
+
+            <div class="character-card"
+                 data-character="sueda"
+                 style="--character-color:#39d98a">
+                <img src="assets/characters/sueda.jpg"
+                     alt="Sueda">
+                <h3>SUEDA</h3>
+            </div>
+
+            <div class="character-card"
+                 data-character="hilal"
+                 style="--character-color:#a66cff">
+                <img src="assets/characters/hilal.jpg"
+                     alt="Hilal">
+                <h3>HİLAL</h3>
+            </div>
+
+        </div>
+
+        <div class="selection-info">
+            <p id="selected-name">
+                Select your character
+            </p>
+
+            <button id="confirm-character"
+                    class="main-button" disabled>
+                CONFIRM CHARACTER
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- 3. TURNE HARİTASI -->
+    <section id="tour-screen" class="screen">
+
+        <header class="game-header">
+
+            <h2>MANIFEST RUSH</h2>
+
+            <div class="player-profile">
+                <img id="player-avatar" src="" alt="Player">
+                <span id="player-name"></span>
+            </div>
+
+        </header>
+
+        <div class="game-layout">
+
+            <aside class="game-sidebar">
+                <h3>LEVELS</h3>
+
+                <p>Score: <span id="score">0</span></p>
+
+                <h3>Upcoming Concerts</h3>
+
+                <button data-city="istanbul">
+                    Istanbul
+                </button>
+
+                <button data-city="ankara">
+                    Ankara
+                </button>
+
+                <button data-city="izmir">
+                    Izmir
+                </button>
+
+            </aside>
+
+            
+<div class="map-game-area">
+
+    <div id="map"></div>
+    
+<!-- 30 SECOND MAP PREVIEW -->
+<div id="map-preview-panel" hidden>
+    <span>🔎 STUDY THE MAP</span>
+
+    <strong id="preview-timer">00:30</strong>
+
+    <p>
+        Başlangıç ve konser alanını incele!
+        Mesafe ve süreyi tahmin etmeye hazırlan.
+    </p>
+</div>
+
+
+    <!-- MOBILE GAME CONTROLS -->
+    <div id="movement-controls" class="movement-controls">
+
+        <button id="move-up" aria-label="Yukarı">
+            ▲
+        </button>
+
+        <div class="movement-row">
+
+            <button id="move-left" aria-label="Sol">
+                ◀
+            </button>
+
+            <button id="move-down" aria-label="Aşağı">
+                ▼
+            </button>
+
+            <button id="move-right" aria-label="Sağ">
+                ▶
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+        </div>
+
+    </section>
+
+
+<!-- LEVEL 1: ROUTE ESTIMATION SCREEN -->
+<div id="guess-overlay" class="game-overlay" hidden>
+
+    <div class="guess-panel">
+
+        <span class="level-label">
+            LEVEL 01 • ISTANBUL
+        </span>
+
+        <h2>THE FIRST CONCERT!</h2>
+
+        <p class="concert-date">
+            16 FEBRUARY 2025
+        </p>
+
+        <h3>GUESS THE ROUTE!</h3>
+
+        <p class="guess-description">
+            Manifest'in ilk konserine yetişmelisin!
+            Sence JJ Arena'ya yürüyerek ulaşmak
+            ne kadar sürecek?
+        </p>
+
+        <div class="route-information">
+            <p>📍 START: Ataşehir</p>
+            <p>🎤 FINISH: JJ Arena, Watergarden</p>
+        </div>
+
+        <form id="guess-form">
+
+            <label for="guess-distance">
+                Tahmini Mesafe (metre)
+            </label>
+
+            <input
+                type="number"
+                id="guess-distance"
+                min="1"
+                step="1"
+                placeholder="Örn: 850"
+                required
+            >
+
+            <label for="guess-time">
+                Tahmini Yürüme Süresi (dakika)
+            </label>
+
+            <input
+                type="number"
+                id="guess-time"
+                min="0.1"
+                step="0.1"
+                placeholder="Örn: 12"
+                required
+            >
+
+            <button type="submit" class="main-button">
+                SAVE & START MISSION →
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MANIFEST QUIZ SCREEN -->
+<div id="quiz-overlay" class="game-overlay" hidden>
+
+    <div class="guess-panel quiz-panel">
+
+        <span class="level-label">
+            ⭐ MANIFEST STAR CHALLENGE
+        </span>
+
+        <h2 id="quiz-title">QUESTION 1</h2>
+
+        <p id="quiz-question"></p>
+
+        <div id="quiz-options"></div>
+
+        <p id="quiz-feedback" aria-live="polite"></p>
+
+        <button
+            id="quiz-continue"
+            class="main-button"
+            hidden>
+            CONTINUE JOURNEY →
+        </button>
+
+    </div>
+
+</div>
+
+
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Our JavaScript -->
+    <script src="script.js"></script>
+    <script src="map.js"></script>
+    <script src="rush.js"></script>
+
+</body>
+</html>

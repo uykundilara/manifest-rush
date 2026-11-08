@@ -1,0 +1,2220 @@
+
+/* MANIFEST WORLD TOUR - GAME DESIGN */
+
+:root {
+    --background: #10091d;
+    --purple: #a66cff;
+    --pink: #ff4fc3;
+    --white: #ffffff;
+    --glass: rgba(30, 15, 52, 0.85);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--white);
+    overflow-x: hidden;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* SCREEN MANAGEMENT */
+
+.screen {
+    display: none;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* HOME SCREEN */
+
+#home-screen {
+    background:
+        radial-gradient(
+            ellipse at 50% 80%,
+            rgba(186, 49, 179, 0.5),
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(114, 45, 205, 0.45),
+            transparent 45%
+        ),
+        linear-gradient(135deg, #10091d, #290e45);
+}
+
+.home-content {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.subtitle {
+    color: #e9b5ff;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.home-content h1 {
+    font-size: clamp(45px, 8vw, 110px);
+    line-height: 0.98;
+    letter-spacing: 3px;
+    text-shadow: 0 0 40px rgba(255, 79, 195, 0.6);
+}
+
+.description {
+    margin: 30px 0;
+    font-size: 17px;
+    color: #dfc9f2;
+}
+
+.main-button {
+    padding: 17px 45px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(90deg, #a349eb, #ff4fc3);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 25px rgba(255, 79, 195, 0.45);
+    transition: 0.3s;
+}
+
+.main-button:hover:not(:disabled) {
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px rgba(255, 79, 195, 0.8);
+}
+
+.main-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.secondary-button {
+    margin-top: 18px;
+    background: transparent;
+    border: 1px solid #b974e8;
+    color: white;
+    padding: 13px 35px;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.secondary-button:hover {
+    background: rgba(185, 116, 232, 0.2);
+}
+
+/* CHARACTER SELECTION */
+
+#character-screen {
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(124, 43, 166, 0.4),
+            transparent 60%
+        ),
+        linear-gradient(180deg, #12051f, #260d39);
+    padding: 35px 30px 55px;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    border: 1px solid #a66cff;
+    border-radius: 25px;
+    padding: 10px 25px;
+}
+
+.character-header {
+    text-align: center;
+    margin: 25px auto 35px;
+}
+
+.character-header h2 {
+    font-size: clamp(30px, 5vw, 60px);
+    color: #ffbaf0;
+    text-shadow: 0 0 30px rgba(255, 79, 195, 0.5);
+}
+
+.character-header p {
+    margin-top: 12px;
+    color: #d5c0ea;
+}
+
+/* SIX CHARACTER CARDS */
+
+.character-container {
+    max-width: 1450px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+    align-items: center;
+}
+
+.character-card {
+    position: relative;
+    height: 360px;
+    border: 2px solid var(--character-color);
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #241530;
+    box-shadow: 0 0 15px
+        color-mix(in srgb, var(--character-color), transparent 70%);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.character-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.3s;
+}
+
+.character-card::after {
+    content: "";
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0.9)
+    );
+    pointer-events: none;
+}
+
+.character-card h3 {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(13px, 1.6vw, 23px);
+    z-index: 1;
+    text-shadow: 0 2px 12px black;
+}
+
+.character-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 35px var(--character-color);
+}
+
+.character-card:hover img {
+    transform: scale(1.05);
+}
+
+.character-card.selected {
+    transform: translateY(-15px) scale(1.04);
+    box-shadow: 0 0 45px var(--character-color);
+    border-width: 4px;
+    z-index: 2;
+}
+
+.character-container:has(.selected)
+.character-card:not(.selected) {
+    opacity: 0.65;
+}
+
+.selection-info {
+    text-align: center;
+    margin-top: 45px;
+}
+
+#selected-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 22px;
+    color: #ffbaf0;
+}
+
+/* TOUR MAP SCREEN */
+
+#tour-screen {
+    background: #11091c;
+}
+
+.game-header {
+    min-height: 85px;
+    padding: 16px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #200f34;
+    border-bottom: 1px solid #6b348b;
+}
+
+.game-header h2 {
+    color: #ffbaf0;
+    letter-spacing: 2px;
+}
+
+.player-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-profile img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #ff4fc3;
+    object-fit: cover;
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 85px);
+    min-height: 450px;
+}
+
+.game-sidebar {
+    padding: 30px 22px;
+    background: #1b102d;
+    overflow-y: auto;
+}
+
+.game-sidebar h2 {
+    color: #ffbaf0;
+    margin-bottom: 25px;
+}
+
+.game-sidebar p {
+    padding: 12px 0;
+}
+
+.game-sidebar h3 {
+    margin: 30px 0 15px;
+}
+
+.game-sidebar button {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 15px;
+    color: white;
+    background: #40215d;
+    border: 1px solid #8d4dbb;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+
+.game-sidebar button:hover {
+    background: #67318d;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background: #21122f;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1100px) {
+    .character-container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 800px;
+    }
+
+    .character-card {
+        height: 350px;
+    }
+}
+
+@media (max-width: 650px) {
+    #character-screen {
+        padding: 20px 15px 40px;
+    }
+
+    .character-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .character-card {
+        height: 260px;
+    }
+
+    .game-header {
+        padding: 15px;
+    }
+
+    .game-header h2 {
+        font-size: 16px;
+    }
+
+    .game-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .game-sidebar {
+        padding: 20px;
+    }
+
+    #map {
+        height: 65vh;
+    }
+}
+
+
+/* LEAFLET CUSTOM MARKERS */
+
+.custom-city-icon {
+    background: transparent;
+    border: none;
+}
+
+/* LEAFLET POPUPS */
+
+.leaflet-popup-content-wrapper {
+    background: #241334;
+    color: white;
+    border: 1px solid #a66cff;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(166, 108, 255, 0.4);
+}
+
+.leaflet-popup-content {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.leaflet-popup-content h3 {
+    color: #ff8dd6;
+    margin-bottom: 8px;
+}
+
+.leaflet-popup-tip {
+    background: #241334;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: #ffffff;
+}
+
+
+/* ====================================
+   MANIFEST RUSH - MOVEMENT CONTROLS
+==================================== */
+
+.map-game-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+}
+
+.map-game-area #map {
+    width: 100%;
+    height: 100%;
+}
+
+/* CHARACTER MARKER */
+
+.player-marker {
+    background: transparent;
+    border: none;
+}
+
+.player-marker img {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--player-color, #ff4fc3);
+    box-shadow: 0 0 20px var(--player-color, #ff4fc3);
+}
+
+/* CONTROLS */
+
+.movement-controls {
+    position: absolute;
+    bottom: 35px;
+    right: 25px;
+    z-index: 800;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+}
+
+.movement-controls button {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    border: 2px solid #d68aff;
+    background: rgba(36, 16, 59, 0.88);
+    color: white;
+    font-size: 22px;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.movement-controls button:active {
+    background: #a66cff;
+    transform: scale(0.94);
+}
+
+.movement-row {
+    display: flex;
+    gap: 7px;
+}
+
+.movement-controls.visible {
+    display: flex;
+}
+
+/* MOBILE LAYOUT */
+
+@media (max-width: 650px) {
+
+    .map-game-area {
+        height: 58dvh;
+        min-height: 350px;
+    }
+
+    .movement-controls {
+        bottom: 20px;
+        right: 12px;
+        gap: 5px;
+    }
+
+    .movement-controls button {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        border-radius: 12px;
+    }
+
+    .movement-row {
+        gap: 5px;
+    }
+}
+
+
+.rush-avatar img {
+    width: 54px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--player-color, #ff4fc3);
+    box-shadow: 0 0 18px rgba(255, 79, 195, 0.8);
+}
+
+
+/* FIRST CONCERT - ESTIMATION SCREEN */
+
+.game-overlay[hidden] {
+    display: none !important;
+}
+
+.game-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(8, 4, 20, 0.92);
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.guess-panel {
+    width: 100%;
+    max-width: 470px;
+    padding: 35px 28px;
+    border-radius: 25px;
+    background: linear-gradient(
+        145deg, #28113e, #12091f
+    );
+    border: 1px solid #ad5cff;
+    box-shadow: 0 0 45px rgba(173,92,255,.3);
+    color: white;
+    text-align: center;
+}
+
+.level-label {
+    font-size: 12px;
+    color: #eeb6ff;
+    letter-spacing: 2px;
+}
+
+.guess-panel h2 {
+    margin: 15px 0 5px;
+    font-size: 30px;
+    color: #ff8cce;
+}
+
+.concert-date {
+    color: #d2b4e6;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.guess-panel h3 {
+    margin-top: 30px;
+    font-size: 23px;
+}
+
+.guess-description {
+    color: #e4d5ef;
+    line-height: 1.6;
+    margin: 15px 0;
+}
+
+.route-information {
+    background: rgba(255,255,255,.07);
+    padding: 15px;
+    border-radius: 14px;
+    margin: 20px 0;
+    text-align: left;
+    line-height: 2;
+}
+
+#guess-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+#guess-form label {
+    color: #f0d8ff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#guess-form input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #8052aa;
+    border-radius: 12px;
+    background: #1a1029;
+    color: white;
+    font-size: 16px;
+}
+
+#guess-form input:focus {
+    outline: 2px solid #ff70c7;
+}
+
+#guess-form .main-button {
+    width: 100%;
+    margin-top: 18px;
+}
+
+@media (max-width: 650px) {
+    .guess-panel {
+        padding: 28px 20px;
+    }
+
+    .guess-panel h2 {
+        font-size: 24px;
+    }
+
+    .guess-panel h3 {
+        font-size: 20px;
+    }
+}
+
+
+/* 30 SECOND MAP PREVIEW */
+
+#map-preview-panel[hidden] {
+    display: none !important;
+}
+
+#map-preview-panel {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+
+    width: min(90%, 340px);
+    padding: 15px;
+
+    border: 2px solid #ff75bc;
+    border-radius: 18px;
+
+    background: rgba(29, 10, 49, 0.94);
+    color: white;
+    text-align: center;
+
+    box-shadow: 0 0 25px rgba(255, 79, 195, 0.4);
+    pointer-events: none;
+}
+
+#map-preview-panel span {
+    color: #ffb4e3;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+#preview-timer {
+    display: block;
+    margin: 8px 0;
+    font-size: 38px;
+    color: white;
+}
+
+#map-preview-panel p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #ead5f5;
+}
+
+@media (max-width: 650px) {
+    #map-preview-panel {
+        top: 10px;
+        padding: 12px;
+    }
+
+    #preview-timer {
+        font-size: 30px;
+    }
+}
+
+/* ===================================
+   CHARACTER BASED GAME THEME
+=================================== */
+
+:root {
+    --player-color: #a66cff;
+}
+
+/* TOUR HEADER */
+
+.game-header {
+    border-bottom: 2px solid var(--player-color);
+}
+
+.game-header h2 {
+    color: var(--player-color);
+}
+
+/* PLAYER PROFILE */
+
+.player-profile img {
+    border-color: var(--player-color);
+    box-shadow: 0 0 15px var(--player-color);
+}
+
+/* SIDEBAR */
+
+.game-sidebar h2,
+.game-sidebar h3 {
+    color: var(--player-color);
+}
+
+.game-sidebar button {
+    border-color: var(--player-color);
+}
+
+.game-sidebar button:hover {
+    box-shadow: 0 0 15px var(--player-color);
+}
+
+/* MAIN BUTTONS */
+
+#tour-screen .main-button,
+.guess-panel .main-button {
+    background: var(--player-color);
+    color: #160b21;
+    box-shadow: 0 0 22px var(--player-color);
+}
+
+/* MAP PREVIEW */
+
+#map-preview-panel {
+    border-color: var(--player-color);
+    box-shadow: 0 0 25px var(--player-color);
+}
+
+#preview-timer {
+    color: var(--player-color);
+}
+
+/* GUESS SCREEN */
+
+.guess-panel {
+    border-color: var(--player-color);
+}
+
+.guess-panel h2,
+.guess-panel h3 {
+    color: var(--player-color);
+}
+
+#guess-form input:focus {
+    outline-color: var(--player-color);
+}
+
+/* MOVEMENT CONTROLS */
+
+.movement-controls button {
+    border-color: var(--player-color);
+}
+
+.movement-controls button:active {
+    background: var(--player-color);
+}
+
+/* RESULTS SCREEN */
+
+.results-panel h2 {
+    color: var(--player-color);
+}
+
+
+/* ==================================
+   MANIFEST RUSH - QUIZ STARS
+================================== */
+
+.quiz-panel {
+    border-color: var(--player-color);
+    max-width: 450px;
+}
+
+.quiz-panel h2 {
+    color: var(--player-color);
+}
+
+#quiz-question {
+    margin: 25px 0;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+#quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quiz-option {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--player-color);
+    background: #271639;
+    color: white;
+    text-align: left;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.quiz-option:hover:not(:disabled) {
+    background: #483060;
+}
+
+.quiz-option:disabled {
+    cursor: default;
+}
+
+.quiz-option.correct {
+    border-color: #39d98a;
+    background: #17543c;
+}
+
+.quiz-option.wrong {
+    border-color: #ff3556;
+    background: #692337;
+}
+
+#quiz-feedback {
+    margin: 18px 0;
+    font-weight: bold;
+    min-height: 20px;
+}
+
+#quiz-continue {
+    width: 100%;
+    margin-top: 12px;
+}
+
+#quiz-continue[hidden] {
+    display: none;
+}
+
+/* Star marker on the map */
+
+.quiz-star-marker {
+    background: transparent;
+    border: 0;
+}
+
+.quiz-star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    font-size: 25px;
+    background: #f5bf38;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #f5bf38;
+}
+
+.quiz-star.completed {
+    background: #39d98a;
+    box-shadow: 0 0 14px #39d98a;
+}
+
+@media (max-width: 650px) {
+    .quiz-panel {
+        padding: 25px 18px;
+    }
+
+    #quiz-question {
+        font-size: 17px;
+    }
+
+    .quiz-option {
+        min-height: 48px;
+    }
+}
+
+
+/* ==========================================
+   MANIFEST RUSH - NEW RESULTS DESIGN
+========================================== */
+
+.rush-results-panel {
+    width: min(100%, 530px);
+    max-height: 94dvh;
+    overflow-y: auto;
+    padding: 30px;
+    background: linear-gradient(
+        145deg, #28143d, #140a24
+    );
+    border: 1px solid var(--player-color, #a66cff);
+    border-radius: 25px;
+    color: white;
+    box-shadow: 0 0 35px rgba(0,0,0,0.4);
+}
+
+.rush-results-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.rush-trophy {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.rush-level {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #d9bde8;
+}
+
+.rush-results-header h2 {
+    font-size: 32px;
+    margin: 12px 0 5px;
+    color: var(--player-color, #a66cff);
+}
+
+.rush-location {
+    color: #d9bde8;
+    font-size: 13px;
+}
+
+.rush-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.rush-result-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 18px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-align: center;
+}
+
+.rush-result-card h3 {
+    color: var(--player-color, #a66cff);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.rush-result-card span {
+    font-size: 12px;
+    color: #dbc7e8;
+}
+
+.rush-result-card strong {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.rush-differences {
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.rush-differences h3 {
+    font-size: 14px;
+    color: var(--player-color, #a66cff);
+    margin-bottom: 15px;
+}
+
+.rush-difference-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+}
+
+.rush-difference-row:last-child {
+    border-bottom: none;
+}
+
+.rush-difference-row span {
+    color: #d9c4e8;
+}
+
+.rush-difference-row strong {
+    text-align: right;
+    font-weight: 600;
+}
+
+.rush-final-score {
+    text-align: center;
+    margin: 25px 0 20px;
+}
+
+.rush-final-score p {
+    color: #dbc7e8;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.rush-final-score h2 {
+    color: var(--player-color, #a66cff);
+    font-size: 42px;
+    margin-top: 8px;
+}
+
+.rush-back-button {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    border: none;
+    border-radius: 30px;
+    background: var(--player-color, #a66cff);
+    color: #160a24;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.rush-back-button:hover {
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+}
+
+.rush-result-note {
+    color: #cdb6dc;
+    text-align: center;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+/* MOBILE RESULT SCREEN */
+
+@media (max-width: 650px) {
+
+    .rush-results-panel {
+        padding: 22px 16px;
+        border-radius: 20px;
+    }
+
+    .rush-results-header h2 {
+        font-size: 27px;
+    }
+
+    .rush-result-card {
+        padding: 15px 7px;
+    }
+
+    .rush-result-card strong {
+        font-size: 19px;
+    }
+
+    .rush-differences {
+        padding: 14px 12px;
+    }
+
+    .rush-difference-row {
+        font-size: 12px;
+        align-items: flex-start;
+    }
+
+    .rush-final-score h2 {
+        font-size: 36px;
+    }
+}
+
+
+
+/* ==========================================
+   MANIFEST RUSH: CATCH THE CONCERT
+   COMPLETE RESPONSIVE MOBILE DESIGN
+   Version: 2.0
+========================================== */
+
+/* ==========================================
+   1. GENERAL RESPONSIVE SETTINGS
+========================================== */
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.screen {
+    width: 100%;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--player-color, #a66cff);
+    outline-offset: 3px;
+}
+
+/* Hide unused horizontal movement controls */
+
+#move-left,
+#move-right {
+    display: none !important;
+}
+
+/* Ensure hidden overlays stay hidden */
+
+.game-overlay[hidden],
+#map-preview-panel[hidden],
+#quiz-continue[hidden] {
+    display: none !important;
+}
+
+/* ==========================================
+   2. TABLET DESIGN
+   651px - 1100px
+========================================== */
+
+@media (min-width: 651px) and (max-width: 1100px) {
+
+    /* Character selection */
+
+    .character-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        max-width: 850px;
+    }
+
+    .character-card {
+        height: auto;
+        aspect-ratio: 3 / 4;
+    }
+
+    /* Game layout */
+
+    .game-layout {
+        grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .game-sidebar {
+        padding: 22px 16px;
+    }
+
+    .game-header {
+        padding: 15px 22px;
+    }
+
+    /* Game controls */
+
+    .movement-controls {
+        bottom: 20px;
+        right: 18px;
+    }
+
+    /* Modal windows */
+
+    .guess-panel,
+    .quiz-panel {
+        max-width: 480px;
+    }
+
+    .rush-results-panel {
+        width: min(92%, 530px);
+    }
+}
+
+/* ==========================================
+   3. MOBILE DESIGN
+   Screens up to 650px
+========================================== */
+
+@media (max-width: 650px) {
+
+    /* --------------------------------------
+       GENERAL MOBILE SETTINGS
+    -------------------------------------- */
+
+    body {
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    .screen {
+        width: 100%;
+        min-height: 100dvh;
+    }
+
+    .screen.active {
+        display: block;
+    }
+
+    /* --------------------------------------
+       HOME SCREEN
+    -------------------------------------- */
+
+    .home-content {
+        min-height: 100dvh;
+        padding: 35px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .home-content h1 {
+        font-size: clamp(37px, 10vw, 58px);
+        line-height: 1.08;
+        letter-spacing: 1px;
+        max-width: 100%;
+        overflow-wrap: break-word;
+    }
+
+    .subtitle {
+        font-size: 10px;
+        line-height: 1.7;
+        letter-spacing: 2px;
+        max-width: 300px;
+    }
+
+    .description {
+        font-size: 14px;
+        line-height: 1.7;
+        max-width: 310px;
+        margin: 25px 0;
+    }
+
+    .home-content .main-button,
+    .home-content .secondary-button {
+        width: min(100%, 310px);
+        min-height: 52px;
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+
+    .home-content .secondary-button {
+        margin-top: 14px;
+    }
+
+    /* --------------------------------------
+       CHARACTER SELECTION
+    -------------------------------------- */
+
+    #character-screen {
+        padding: 18px 14px 35px;
+        min-height: 100dvh;
+    }
+
+    .back-button {
+        min-height: 42px;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+    .character-header {
+        margin: 25px auto 25px;
+        text-align: center;
+    }
+
+    .character-header h2 {
+        font-size: clamp(26px, 7vw, 36px);
+        line-height: 1.15;
+        letter-spacing: 0.5px;
+    }
+
+    .character-header p {
+        font-size: 13px;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+
+    .character-container {
+        display: grid;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .character-card {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 4;
+        min-width: 0;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .character-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    .character-card h3 {
+        font-size: clamp(13px, 4vw, 18px);
+        bottom: 12px;
+        padding: 0 4px;
+    }
+
+    .character-card:hover {
+        transform: none;
+    }
+
+    .character-card.selected {
+        transform: translateY(-4px) scale(1.02);
+        border-width: 3px;
+    }
+
+    .selection-info {
+        margin-top: 25px;
+        padding-bottom: 15px;
+    }
+
+    #selected-name {
+        font-size: 18px;
+        margin-bottom: 17px;
+    }
+
+    #confirm-character {
+        width: min(100%, 310px);
+        min-height: 52px;
+    }
+
+    /* --------------------------------------
+       GAME HEADER
+    -------------------------------------- */
+
+    .game-header {
+        width: 100%;
+        min-height: 70px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .game-header h2 {
+        font-size: clamp(12px, 3.5vw, 17px);
+        line-height: 1.2;
+        letter-spacing: 0.5px;
+        min-width: 0;
+    }
+
+    .player-profile {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-shrink: 0;
+    }
+
+    .player-profile img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border-color:
+            var(--player-color, #a66cff);
+        flex-shrink: 0;
+    }
+
+    #player-name {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /* --------------------------------------
+       GAME LAYOUT
+    -------------------------------------- */
+
+    .game-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+    }
+
+    /* --------------------------------------
+       GAME SIDEBAR
+    -------------------------------------- */
+
+    .game-sidebar {
+        width: 100%;
+        padding: 16px 14px;
+        overflow: visible;
+    }
+
+    .game-sidebar h2 {
+        font-size: 17px;
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+
+    .game-sidebar p {
+        display: inline-block;
+        font-size: 13px;
+        padding: 7px 0;
+        margin-right: 17px;
+    }
+
+    .game-sidebar h3 {
+        margin: 14px 0 12px;
+        font-size: 14px;
+    }
+
+    .game-sidebar button {
+        display: inline-block;
+        width: calc(33.333% - 8px);
+        min-height: 43px;
+        margin-right: 8px;
+        margin-bottom: 5px;
+        padding: 11px 4px;
+        font-size: 12px;
+        vertical-align: top;
+        border-radius: 10px;
+    }
+
+    .game-sidebar button:last-child {
+        margin-right: 0;
+    }
+
+    /* --------------------------------------
+       LEAFLET MAP
+    -------------------------------------- */
+
+    .map-game-area {
+        position: relative;
+        width: 100%;
+        height: 58dvh;
+        min-height: 370px;
+        max-height: 650px;
+        overflow: hidden;
+    }
+
+    .map-game-area #map {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+    }
+
+    .leaflet-container {
+        font-size: 12px;
+    }
+
+    .leaflet-popup-content-wrapper {
+        max-width: 260px;
+    }
+
+    .leaflet-popup-content {
+        font-size: 12px;
+    }
+
+    .leaflet-control-zoom a {
+        width: 33px !important;
+        height: 33px !important;
+        line-height: 33px !important;
+    }
+
+    /* --------------------------------------
+       PLAYER MARKER
+    -------------------------------------- */
+
+    .rush-avatar img,
+    .player-marker img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid
+            var(--player-color, #a66cff);
+        box-shadow: 0 0 16px
+            var(--player-color, #a66cff);
+    }
+
+    /* --------------------------------------
+       MOVEMENT CONTROLS
+    -------------------------------------- */
+
+    .movement-controls {
+        position: absolute;
+        bottom: 18px;
+        right: 12px;
+        z-index: 800;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .movement-controls.visible {
+        display: flex;
+    }
+
+    .movement-controls button {
+        width: 54px;
+        height: 54px;
+        min-width: 54px;
+        min-height: 54px;
+        padding: 0;
+        border-radius: 14px;
+        border: 2px solid
+            var(--player-color, #a66cff);
+        background: rgba(29, 12, 47, 0.94);
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+        box-shadow: 0 0 13px
+            rgba(0, 0, 0, 0.3);
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .movement-controls button:active {
+        background: var(--player-color, #a66cff);
+        color: #170b24;
+        transform: scale(0.95);
+    }
+
+    .movement-row {
+        display: flex;
+        gap: 6px;
+    }
+
+    #move-left,
+    #move-right {
+        display: none !important;
+    }
+
+    /* --------------------------------------
+       20-SECOND ROUTE PREVIEW
+    -------------------------------------- */
+
+    #map-preview-panel {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+
+        width: min(78%, 300px);
+        padding: 12px;
+
+        border: 2px solid
+            var(--player-color, #a66cff);
+        border-radius: 16px;
+
+        background: rgba(24, 10, 41, 0.95);
+        color: white;
+        text-align: center;
+        box-shadow: 0 0 20px
+            rgba(0, 0, 0, 0.35);
+
+        pointer-events: none;
+    }
+
+    #map-preview-panel span {
+        color: #f3d5ff;
+        font-size: 10px;
+        letter-spacing: 1.3px;
+    }
+
+    #preview-timer {
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        margin: 5px 0;
+        color: var(--player-color, #a66cff);
+    }
+
+    #map-preview-panel p {
+        color: #e8d4f2;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    /* --------------------------------------
+       OVERLAY SCREENS
+    -------------------------------------- */
+
+    .game-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 3000;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 15px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+
+        background: rgba(8, 4, 20, 0.94);
+        backdrop-filter: blur(10px);
+    }
+
+    .game-overlay[hidden] {
+        display: none !important;
+    }
+
+    /* --------------------------------------
+       ESTIMATION SCREEN
+    -------------------------------------- */
+
+    .guess-panel {
+        width: 100%;
+        max-width: 430px;
+        max-height: calc(100dvh - 30px);
+        overflow-y: auto;
+
+        padding: 26px 19px;
+        border: 1px solid
+            var(--player-color, #a66cff);
+        border-radius: 22px;
+
+        background: linear-gradient(
+            145deg,
+            #28133e,
+            #12091f
+        );
+
+        color: white;
+        text-align: center;
+    }
+
+    .guess-panel h2 {
+        font-size: 25px;
+        line-height: 1.2;
+        margin: 13px 0 6px;
+        color: var(--player-color, #a66cff);
+    }
+
+    .guess-panel h3 {
+        font-size: 20px;
+        margin-top: 23px;
+        line-height: 1.3;
+    }
+
+    .level-label {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+    }
+
+    .concert-date {
+        font-size: 12px;
+    }
+
+    .guess-description {
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 14px 0;
+    }
+
+    .route-information {
+        padding: 12px;
+        margin: 15px 0;
+        border-radius: 12px;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    #guess-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #guess-form label {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    #guess-form input {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    #guess-form .main-button {
+        width: 100%;
+        min-height: 50px;
+        padding: 12px;
+        margin-top: 12px;
+        font-size: 13px;
+    }
+
+    /* --------------------------------------
+       MANIFEST QUIZ SCREEN
+    -------------------------------------- */
+
+    .quiz-panel {
+        width: 100%;
+        max-width: 430px;
+    }
+
+    .quiz-panel h2 {
+        color: var(--player-color, #a66cff);
+        font-size: 25px;
+    }
+
+    #quiz-question {
+        font-size: 17px;
+        line-height: 1.55;
+        margin: 20px 0;
+    }
+
+    #quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .quiz-option {
+        width: 100%;
+        min-height: 50px;
+        padding: 13px 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        border-radius: 11px;
+        text-align: left;
+    }
+
+    #quiz-feedback {
+        margin: 15px 0;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    #quiz-continue {
+        width: 100%;
+        min-height: 50px;
+        font-size: 13px;
+    }
+
+    /* --------------------------------------
+       STAR MARKERS
+    -------------------------------------- */
+
+    .quiz-star {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        font-size: 22px;
+        border-width: 3px;
+    }
+
+    /* --------------------------------------
+       CONCERT VIDEO SCREEN
+    -------------------------------------- */
+
+    #rush-video-overlay .guess-panel {
+        padding: 23px 16px;
+    }
+
+    #rush-video-overlay h2 {
+        font-size: 23px;
+        line-height: 1.2;
+    }
+
+    #rush-video-overlay video {
+        width: 100%;
+        max-height: 43dvh;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #0a0713;
+    }
+
+    #rush-video-overlay .main-button,
+    #rush-video-overlay .secondary-button {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    /* --------------------------------------
+       FINAL RESULTS SCREEN
+    -------------------------------------- */
+
+    .rush-results-panel {
+        width: 100%;
+        max-width: 530px;
+        max-height: calc(100dvh - 30px);
+        overflow-y: auto;
+
+        padding: 23px 16px;
+        border: 1px solid
+            var(--player-color, #a66cff);
+        border-radius: 20px;
+
+        background: linear-gradient(
+            145deg,
+            #28143d,
+            #140a24
+        );
+
+        color: white;
+    }
+
+    .rush-results-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .rush-trophy {
+        font-size: 32px;
+        margin-bottom: 6px;
+    }
+
+    .rush-level {
+        font-size: 10px;
+        line-height: 1.5;
+        letter-spacing: 1px;
+    }
+
+    .rush-results-header h2 {
+        font-size: 27px;
+        line-height: 1.2;
+        margin: 8px 0 5px;
+        color: var(--player-color, #a66cff);
+    }
+
+    .rush-location {
+        font-size: 12px;
+    }
+
+    /* Two cards side by side */
+
+    .rush-comparison {
+        display: grid;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+    }
+
+    .rush-result-card {
+        min-width: 0;
+        padding: 15px 9px;
+        border-radius: 14px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+
+        background: rgba(255,255,255,0.08);
+        border: 1px solid
+            rgba(255,255,255,0.1);
+    }
+
+    .rush-result-card h3 {
+        font-size: 12px;
+        line-height: 1.3;
+        margin-bottom: 6px;
+        color: var(--player-color, #a66cff);
+    }
+
+    .rush-result-card span {
+        font-size: 11px;
+        line-height: 1.4;
+        color: #ddc7eb;
+    }
+
+    .rush-result-card strong {
+        font-size: clamp(16px, 4.7vw, 21px);
+        line-height: 1.2;
+        margin-bottom: 8px;
+        color: white;
+        overflow-wrap: anywhere;
+    }
+
+    /* Estimation differences */
+
+    .rush-differences {
+        margin-top: 16px;
+        padding: 15px 12px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.06);
+    }
+
+    .rush-differences h3 {
+        font-size: 13px;
+        margin-bottom: 12px;
+        color: var(--player-color, #a66cff);
+    }
+
+    .rush-difference-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+
+        padding: 10px 0;
+        border-bottom: 1px solid
+            rgba(255,255,255,0.08);
+
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .rush-difference-row:last-child {
+        border-bottom: none;
+    }
+
+    .rush-difference-row span {
+        color: #dcc8e8;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .rush-difference-row strong {
+        color: white;
+        text-align: right;
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* Final score */
+
+    .rush-final-score {
+        text-align: center;
+        margin: 22px 0 17px;
+    }
+
+    .rush-final-score p {
+        font-size: 11px;
+        line-height: 1.5;
+        letter-spacing: 0.8px;
+    }
+
+    .rush-final-score h2 {
+        font-size: clamp(30px, 9vw, 40px);
+        line-height: 1.2;
+        margin-top: 7px;
+        color: var(--player-color, #a66cff);
+    }
+
+    /* Return button */
+
+    .rush-back-button {
+        width: 100%;
+        min-height: 52px;
+        padding: 13px 16px;
+        border-radius: 30px;
+
+        border: none;
+        background: var(--player-color, #a66cff);
+        color: #160a24;
+
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rush-result-note {
+        font-size: 10px;
+        line-height: 1.5;
+        margin-top: 13px;
+        text-align: center;
+        color: #cdb6dc;
+    }
+}
+
+/* ==========================================
+   4. EXTRA SMALL PHONES
+   Up to 380px
+========================================== */
+
+@media (max-width: 380px) {
+
+    .home-content h1 {
+        font-size: 36px;
+    }
+
+    .game-header {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .game-header h2 {
+        font-size: 12px;
+    }
+
+    .player-profile img {
+        width: 35px;
+        height: 35px;
+    }
+
+    #player-name {
+        font-size: 10px;
+    }
+
+    .character-container {
+        gap: 9px;
+    }
+
+    .character-card h3 {
+        font-size: 13px;
+    }
+
+    .game-sidebar button {
+        font-size: 11px;
+        padding: 10px 3px;
+    }
+
+    .map-game-area {
+        min-height: 340px;
+    }
+
+    .movement-controls button {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        min-height: 48px;
+    }
+
+    .guess-panel {
+        padding: 22px 15px;
+    }
+
+    .rush-results-panel {
+        padding: 20px 12px;
+    }
+
+    .rush-result-card {
+        padding: 12px 6px;
+    }
+
+    .rush-result-card strong {
+        font-size: 16px;
+    }
+
+    .rush-difference-row {
+        font-size: 11px;
+    }
+}
+
+/* ==========================================
+   5. LANDSCAPE PHONE ORIENTATION
+========================================== */
+
+@media (
+    max-height: 500px
+) and (orientation: landscape) {
+
+    .home-content {
+        min-height: 100dvh;
+        padding: 20px;
+    }
+
+    .home-content h1 {
+        font-size: 42px;
+    }
+
+    .game-overlay {
+        align-items: flex-start;
+    }
+
+    .guess-panel,
+    .rush-results-panel {
+        max-height: calc(100dvh - 20px);
+    }
+
+    .map-game-area {
+        height: 75dvh;
+        min-height: 300px;
+    }
+
+    .movement-controls {
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+/* ==========================================
+   6. REDUCED MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .character-card,
+    .main-button,
+    .secondary-button,
+    .rush-back-button {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* MOBILE OVERLAY FIX */
+
+.game-overlay[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 650px) {
+
+    #guess-overlay,
+    #quiz-overlay,
+    #rush-results,
+    #rush-video-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+
+        padding: 15px;
+        overflow-y: auto;
+
+        align-items: safe center;
+        justify-content: center;
+    }
+
+    #guess-overlay .guess-panel,
+    #quiz-overlay .quiz-panel {
+        width: 100%;
+        max-width: 430px;
+        max-height: calc(100dvh - 30px);
+        overflow-y: auto;
+    }
+
+    #guess-form input {
+        font-size: 16px;
+    }
+}
+
+
+/* =====================================
+   MOBILE GAME TRANSITION FIX
+===================================== */
+
+.game-overlay[hidden] {
+    display: none !important;
+}
+
+#guess-overlay[hidden],
+#quiz-overlay[hidden],
+#map-preview-panel[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 650px) {
+
+    .map-game-area {
+        position: relative;
+        width: 100%;
+        height: 65dvh;
+        min-height: 400px;
+    }
+
+    .map-game-area #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .movement-controls.visible {
+        display: flex !important;
+        z-index: 1200;
+    }
+
+    #move-up,
+    #move-down {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: none;
+    }
+}
+
