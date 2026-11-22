@@ -1352,12 +1352,6 @@ button {
    MANIFEST RUSH - HOW TO PLAY SIDEBAR
 ========================================== */
 
-.rush-instructions {
-    margin-top: 28px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.15);
-}
-
 .game-sidebar .rush-instructions h3 {
     color: var(--player-color, #a66cff);
     font-size: 18px;
@@ -1372,12 +1366,6 @@ button {
     padding: 15px;
 }
 
-.rush-instruction-step {
-    display: flex;
-    gap: 12px;
-    padding: 13px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
 
 .rush-instruction-step:first-child {
     padding-top: 0;
@@ -1407,34 +1395,9 @@ button {
     min-width: 0;
 }
 
-.rush-instruction-step h4 {
-    color: white;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-    margin: 2px 0 7px;
-}
 
-.game-sidebar .rush-instruction-step p {
-    display: block;
-    color: #dccce8;
-    font-size: 12px;
-    line-height: 1.65;
-    padding: 0;
-    margin: 0;
-}
 
-.game-sidebar .rush-instruction-score {
-    display: block;
-    margin: 16px 0 0;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    background: rgba(255,255,255,0.06);
-    color: var(--player-color, #a66cff);
-    font-size: 12px;
-    font-weight: bold;
-}
+
 
 /* MOBILE */
 
@@ -2918,5 +2881,93 @@ input:focus-visible {
 
     .rush-map-help-score {
         font-size: 8px;
+    }
+}
+
+/* =====================================
+   HOW TO PLAY - RIGHT SIDE OF MAP
+===================================== */
+
+.map-game-area {
+    position: relative;
+}
+
+/* Desktop */
+.map-game-area > .rush-map-help {
+    position: absolute;
+    top: 15px;
+    left: auto;
+    right: 15px;
+    z-index: 850;
+    width: 225px;
+    max-width: calc(100% - 30px);
+    max-height: calc(100% - 30px);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+
+    .map-game-area > .rush-map-help {
+        top: 10px;
+        left: auto;
+        right: 8px;
+
+        width: 145px;
+        max-width: 43%;
+        max-height: calc(100% - 20px);
+
+        padding: 10px 8px;
+        overflow-y: auto;
+
+        background: rgba(25, 10, 43, 0.94);
+        border-radius: 11px;
+    }
+
+    .map-game-area > .rush-map-help h3 {
+        font-size: 11px;
+        margin: 0 0 8px;
+    }
+
+    .map-game-area > .rush-map-help .rush-map-help-step {
+        padding: 7px 0;
+    }
+
+    .map-game-area > .rush-map-help .rush-map-help-step strong {
+        font-size: 9px;
+    }
+
+    .map-game-area > .rush-map-help .rush-map-help-step p {
+        font-size: 10px;
+        line-height: 1.4;
+        margin: 3px 0 0;
+    }
+
+    .map-game-area > .rush-map-help .rush-map-help-score {
+        font-size: 9px;
+        padding: 7px 3px;
+    }
+
+    /* Zoom buttons move to left side */
+    .map-game-area .leaflet-top.leaflet-left {
+        left: 0;
+        right: auto;
+        top: 0;
+    }
+
+    /* Keep movement buttons clear of help panel */
+    .movement-controls {
+        right: 10px;
+        bottom: 12px;
+    }
+
+    /* Preview timer stays on left */
+    #map-preview-panel {
+        left: 10px;
+        right: auto;
+        top: 85px;
+        transform: none;
+        width: min(45%, 175px);
     }
 }
