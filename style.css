@@ -886,3 +886,64 @@ button:focus-visible,input:focus-visible,.character-card:focus-visible{outline:2
         flex-shrink: 0;
     }
 }
+
+/* ==========================================
+   MANIFEST RUSH - CONCERT VIDEO SCREEN
+========================================== */
+
+#rush-video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: rgba(10, 4, 22, 0.96);
+}
+
+#rush-video-overlay .guess-panel {
+    width: min(92vw, 720px);
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#rush-video-overlay video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 48dvh;
+    object-fit: contain;
+    border-radius: 14px;
+    background: #10091d;
+}
+
+#rush-video-overlay button {
+    width: 100%;
+    min-height: 42px;
+    margin-top: 10px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+    #rush-video-overlay .guess-panel {
+        width: 96vw;
+        padding: 14px;
+    }
+
+    #rush-video-overlay h2 {
+        font-size: 20px;
+    }
+
+    #rush-video-overlay video {
+        max-height: 40dvh;
+    }
+
+    #rush-video-overlay button {
+        font-size: 12px;
+        padding: 10px;
+    }
+}

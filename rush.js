@@ -578,7 +578,7 @@ async function launchRushRoute() {
     rushProgressLine = L.polyline(
         [rushRoute[0]],
         {
-            color: "#39d98a",
+            color: "#FF8C00",
             weight: 7
         }
     ).addTo(map);
@@ -852,7 +852,7 @@ function showRushConcertVideo(onFinish) {
 
     message.textContent =
         "JJ Arena'ya ulaştın! " +
-        "15 saniyelik konser kesiti.";
+        "Tebrikler! Manifest'in ilk konserine yetiştin!";
 
     const video = document.createElement("video");
 
@@ -906,7 +906,7 @@ function showRushConcertVideo(onFinish) {
     });
 
     video.addEventListener("timeupdate", () => {
-        if (video.currentTime >= 15) {
+        if (video.currentTime >= 14) {
             finish();
         }
     });
@@ -1035,7 +1035,7 @@ function showRushResults(result) {
         </div>
 
         <button id="rush-back-map" class="rush-back-button">
-            HARİTAYA DÖN
+            NEXT LEVEL → LEVEL 02
         </button>
 
         <p class="rush-result-note">
@@ -1046,10 +1046,33 @@ function showRushResults(result) {
     overlay.appendChild(panel);
     document.body.appendChild(overlay);
 
-    document.getElementById("rush-back-map")
-        .addEventListener("click", () => {
-            overlay.remove();
-        });
+    
+document.getElementById("rush-back-map")
+    .addEventListener("click", () => {
+
+        // Close Level 01 results
+        overlay.remove();
+
+        // Show Ankara - Level 02 location
+        const ankara = concertCities.ankara;
+
+        window.gameMap.invalidateSize();
+
+        window.gameMap.flyTo(
+            ankara.coordinates,
+            11
+        );
+
+        // Level 02 is not playable yet
+        cityMarkers.ankara
+            .bindPopup(`
+                <h3>🎤 LEVEL 02 — ANKARA</h3>
+                <p>COMING SOON!</p>
+                <p>Next concert mission is being prepared.</p>
+            `)
+            .openPopup();
+    });
+
 }
 
 
