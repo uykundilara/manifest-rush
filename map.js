@@ -9,7 +9,7 @@
 const concertCities = {
     istanbul: {
         name: "İstanbul",
-        coordinates: [41.0082, 28.9784],
+        coordinates: [40.99757, 29.09937],
         concert: "Istanbul Opening Concert",
         unlocked: true,
         completed: false
