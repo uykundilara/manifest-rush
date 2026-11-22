@@ -770,41 +770,49 @@ function answerRushQuiz(index, chosen) {
     rushElement("quiz-continue").hidden = false;
 }
 
-// SCORE ESTIMATIONS
+
+/* ==========================================
+   MANIFEST RUSH - ESTIMATION SCORING
+   Distance tolerance: ±100 meters
+   Walking time tolerance: ±2 minutes
+========================================== */
 
 function scoreRushEstimates() {
 
+    // Calculate absolute estimation errors
     const distanceError = Math.abs(
-        playerGuess.distance -
-        rushRouteData.distance
+        playerGuess.distance - rushRouteData.distance
     );
 
     const timeError = Math.abs(
-        playerGuess.time -
-        rushRouteData.time
+        playerGuess.time - rushRouteData.time
     );
 
+    // DISTANCE: Maximum 100 points
     const distancePoints =
-        distanceError <= 5 ? 100 :
-        distanceError <= 50 ? 75 :
-        distanceError <= 150 ? 40 : 0;
+        distanceError <= 100 ? 100 : 0;
 
+    // WALKING TIME: Maximum 100 points
     const timePoints =
-        timeError <= 1 ? 100 :
-        timeError <= 3 ? 50 : 0;
+        timeError <= 2 ? 100 : 0;
+
+    // MANIFEST QUIZ: Maximum 200 points
+    const quizPoints = rushQuizPoints;
+
+    // TOTAL: Maximum 400 points
+    const totalPoints =
+        distancePoints + timePoints + quizPoints;
 
     return {
         distanceError,
         timeError,
         distancePoints,
         timePoints,
-        quizPoints: rushQuizPoints,
-        totalPoints:
-            distancePoints +
-            timePoints +
-            rushQuizPoints
+        quizPoints,
+        totalPoints
     };
 }
+
 
 // COMPLETE THE CONCERT LEVEL
 

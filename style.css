@@ -1349,6 +1349,145 @@ button {
 
 
 /* ==========================================
+   MANIFEST RUSH - HOW TO PLAY SIDEBAR
+========================================== */
+
+.rush-instructions {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.game-sidebar .rush-instructions h3 {
+    color: var(--player-color, #a66cff);
+    font-size: 18px;
+    margin: 0 0 15px;
+    letter-spacing: 0.5px;
+}
+
+.rush-instruction-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.rush-instruction-step {
+    display: flex;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.rush-instruction-step:first-child {
+    padding-top: 0;
+}
+
+.rush-instruction-step:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.rush-step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--player-color, #a66cff);
+    color: #170b24;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.rush-instruction-step > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.rush-instruction-step h4 {
+    color: white;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    margin: 2px 0 7px;
+}
+
+.game-sidebar .rush-instruction-step p {
+    display: block;
+    color: #dccce8;
+    font-size: 12px;
+    line-height: 1.65;
+    padding: 0;
+    margin: 0;
+}
+
+.game-sidebar .rush-instruction-score {
+    display: block;
+    margin: 16px 0 0;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(255,255,255,0.06);
+    color: var(--player-color, #a66cff);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    .rush-instructions {
+        margin-top: 20px;
+        padding-top: 16px;
+    }
+
+    .game-sidebar .rush-instructions h3 {
+        font-size: 16px;
+    }
+
+    .rush-instruction-card {
+        padding: 12px;
+    }
+
+    .rush-instruction-step {
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .rush-instruction-step h4 {
+        font-size: 12px;
+    }
+
+    .game-sidebar .rush-instruction-step p {
+        font-size: 12px;
+        margin: 0;
+    }
+}
+
+/* ESTIMATION SCORING RULES */
+
+.guess-scoring-info {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--player-color, #a66cff);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 15px 0;
+}
+
+.guess-scoring-info p {
+    display: block;
+    color: #f0dfff;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 5px 0;
+}
+
+
+/* ==========================================
    MANIFEST RUSH: CATCH THE CONCERT
    COMPLETE RESPONSIVE MOBILE DESIGN
    Version: 2.0
