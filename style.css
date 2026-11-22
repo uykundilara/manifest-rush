@@ -206,3 +206,683 @@ button:focus-visible,input:focus-visible,.character-card:focus-visible{outline:2
   .game-sidebar button[data-city]{min-height:26px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* ==========================================
+   MANIFEST RUSH - SMALLER CHARACTER CARDS
+   DESKTOP + MOBILE
+========================================== */
+
+/* DESKTOP */
+
+#character-screen .character-container {
+    width: min(100%, 1320px);
+    margin: 0 auto;
+    gap: 14px;
+}
+
+#character-screen .character-card {
+    height: clamp(220px, 46dvh, 440px);
+    min-height: 0;
+    aspect-ratio: auto;
+}
+
+#character-screen .character-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+#character-screen .character-header {
+    margin: 12px auto 18px;
+}
+
+#character-screen .selection-info {
+    margin-top: 14px;
+}
+
+#character-screen .character-card h3 {
+    bottom: 12px;
+    font-size: clamp(12px, 1.4vw, 18px);
+}
+
+/* TABLET */
+
+@media (min-width: 651px) and (max-width: 1100px) {
+
+    #character-screen .character-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        max-width: 700px;
+        gap: 10px;
+    }
+
+    #character-screen .character-card {
+        height: clamp(125px, 26dvh, 245px);
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    #character-screen .character-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+        max-width: 470px;
+        gap: 8px;
+    }
+
+    #character-screen .character-card {
+        height: clamp(115px, 25dvh, 215px);
+        min-height: 0;
+        aspect-ratio: auto;
+        border-radius: 11px;
+    }
+
+    #character-screen .character-card h3 {
+        bottom: 7px;
+        font-size: clamp(10px, 2.7vw, 13px);
+    }
+
+    #character-screen .character-header {
+        margin: 6px auto 10px;
+    }
+
+    #character-screen .selection-info {
+        margin-top: 10px;
+    }
+}
+
+/* SHORT MOBILE SCREENS */
+
+@media (max-width: 650px) and (max-height: 700px) {
+
+    #character-screen .character-card {
+        height: clamp(100px, 22dvh, 155px);
+    }
+
+    #character-screen .character-header h2 {
+        font-size: 20px;
+    }
+
+    #character-screen .character-header p {
+        font-size: 11px;
+    }
+}
+
+
+/* ==========================================
+   MANIFEST RUSH
+   CHARACTER SELECTION - CLEAN ALIGNMENT
+   DESKTOP + MOBILE
+========================================== */
+
+/* MAIN CHARACTER SCREEN */
+
+#character-screen.screen.active {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+
+    align-content: center !important;
+    justify-items: center;
+
+    row-gap: 14px !important;
+
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+
+    padding: 65px 20px 20px;
+    overflow: hidden;
+}
+
+/* BACK BUTTON */
+
+#character-screen .back-button {
+    position: absolute !important;
+    top: 16px;
+    left: 20px;
+    z-index: 10;
+}
+
+/* HEADER */
+
+#character-screen .character-header {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+
+    text-align: center;
+    align-self: center;
+}
+
+#character-screen .character-header h2 {
+    margin: 0;
+    font-size: clamp(22px, 3vw, 34px);
+}
+
+#character-screen .character-header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+}
+
+/* CHARACTER GRID - DESKTOP */
+
+#character-screen .character-container {
+    display: grid !important;
+
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: auto;
+
+    align-content: center !important;
+    align-items: stretch !important;
+
+    gap: 12px !important;
+
+    width: min(100%, 1250px);
+    max-width: 1250px;
+
+    height: auto !important;
+    min-height: 0;
+
+    margin: 0 auto !important;
+    padding: 0;
+
+    flex: none !important;
+}
+
+/* CHARACTER CARDS */
+
+#character-screen .character-card {
+    position: relative;
+
+    width: 100%;
+    height: clamp(190px, 40dvh, 350px);
+
+    min-height: 0;
+    margin: 0 !important;
+
+    aspect-ratio: auto;
+
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#character-screen .character-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+#character-screen .character-card h3 {
+    bottom: 10px;
+    font-size: clamp(12px, 1.4vw, 17px);
+}
+
+/* SELECTION + CONFIRM */
+
+#character-screen .selection-info {
+    position: static !important;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    gap: 8px !important;
+
+    align-self: center;
+    flex: none !important;
+}
+
+#character-screen #selected-name {
+    margin: 0 !important;
+    padding: 0;
+
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+#character-screen #confirm-character {
+    width: min(100%, 340px);
+    min-height: 42px;
+
+    margin: 0 !important;
+    padding: 10px 16px;
+
+    font-size: 13px;
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (min-width: 651px) and (max-width: 1100px) {
+
+    #character-screen .character-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(2, auto);
+        width: min(100%, 650px);
+        gap: 10px !important;
+    }
+
+    #character-screen .character-card {
+        height: clamp(120px, 24dvh, 200px);
+    }
+}
+
+/* ==========================================
+   MOBILE - 3 COLUMNS x 2 ROWS
+========================================== */
+
+@media (max-width: 650px) {
+
+    #character-screen.screen.active {
+        grid-template-rows: auto auto auto;
+
+        align-content: center !important;
+        justify-items: center;
+
+        row-gap: 10px !important;
+
+        padding: 60px 12px 16px;
+    }
+
+    #character-screen .back-button {
+        top: 10px;
+        left: 12px;
+        padding: 8px 14px;
+        font-size: 11px;
+    }
+
+    #character-screen .character-header {
+        margin: 0 !important;
+    }
+
+    #character-screen .character-header h2 {
+        font-size: 21px;
+    }
+
+    #character-screen .character-header p {
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    #character-screen .character-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(2, auto);
+
+        align-content: center !important;
+        align-items: stretch !important;
+
+        column-gap: 8px !important;
+        row-gap: 8px !important;
+
+        width: 100%;
+        max-width: 470px;
+
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    #character-screen .character-card {
+        height: clamp(100px, 21dvh, 175px);
+        min-height: 0;
+        margin: 0 !important;
+        border-radius: 10px;
+    }
+
+    #character-screen .character-card h3 {
+        bottom: 6px;
+        font-size: 11px;
+    }
+
+    #character-screen .selection-info {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 6px !important;
+    }
+
+    #character-screen #selected-name {
+        font-size: 12px;
+    }
+
+    #character-screen #confirm-character {
+        width: min(100%, 280px);
+        min-height: 40px;
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+}
+
+/* ==========================================
+   SHORT MOBILE SCREENS
+========================================== */
+
+@media (max-width: 650px) and (max-height: 700px) {
+
+    #character-screen.screen.active {
+        row-gap: 7px !important;
+        padding-top: 48px;
+        padding-bottom: 8px;
+    }
+
+    #character-screen .character-card {
+        height: clamp(85px, 19dvh, 130px);
+    }
+
+    #character-screen .character-header h2 {
+        font-size: 18px;
+    }
+
+    #character-screen .character-header p {
+        font-size: 10px;
+    }
+
+    #character-screen #confirm-character {
+        min-height: 36px;
+        padding: 8px;
+    }
+}
+
+/* VERY SHORT DESKTOP WINDOWS */
+
+@media (min-width: 1101px) and (max-height: 600px) {
+
+    #character-screen .character-card {
+        height: 35dvh;
+    }
+
+    #character-screen.screen.active {
+        row-gap: 8px !important;
+        padding-top: 50px;
+    }
+}
+
+/* ==========================================
+   MANIFEST RUSH - LARGER LEVEL INTRO
+   DESKTOP + MOBILE
+========================================== */
+
+/* MAIN LEVEL CARD */
+
+#level-intro-screen .level-intro-card {
+    width: min(80vw, 600px);
+    max-width: 680px;
+    padding: 32px 35px;
+}
+
+/* LEVEL TITLE */
+
+#level-intro-screen .level-intro-card h1 {
+    font-size: clamp(26px, 3vw, 42px);
+}
+
+#level-intro-screen .level-intro-card h2 {
+    font-size: clamp(17px, 2vw, 23px);
+}
+
+/* MICROPHONE ICON */
+
+#level-intro-screen .level-intro-symbol {
+    font-size: 52px;
+    margin: 14px 0 10px;
+}
+
+/* SELECTED CHARACTER */
+
+#level-intro-screen .level-intro-player {
+    margin: 18px 0;
+    font-size: 16px;
+}
+
+#level-intro-screen .level-intro-player img {
+    width: 56px;
+    height: 56px;
+}
+
+/* DESCRIPTION */
+
+#level-intro-screen .level-intro-description {
+    max-width: 540px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* STATISTICS */
+
+#level-intro-screen .level-intro-stats {
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+#level-intro-screen .level-intro-stats div {
+    padding: 17px 8px;
+}
+
+#level-intro-screen .level-intro-stats strong {
+    font-size: 18px;
+}
+
+/* BUTTONS */
+
+#level-intro-screen #start-level-one,
+#level-intro-screen #back-to-characters {
+    min-height: 50px;
+    font-size: 15px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    #level-intro-screen .level-intro-card {
+        width: min(96vw, 440px);
+        padding: 18px 15px;
+    }
+
+    #level-intro-screen .level-intro-card h1 {
+        font-size: clamp(22px, 5vw, 28px);
+    }
+
+    #level-intro-screen .level-intro-card h2 {
+        font-size: 16px;
+    }
+
+    #level-intro-screen .level-intro-symbol {
+        font-size: 34px;
+        margin: 8px 0;
+    }
+
+    #level-intro-screen .level-intro-player {
+        margin: 10px 0;
+    }
+
+    #level-intro-screen .level-intro-player img {
+        width: 42px;
+        height: 42px;
+    }
+
+    #level-intro-screen .level-intro-description {
+        font-size: 12px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+    }
+
+    #level-intro-screen .level-intro-stats div {
+        padding: 10px 5px;
+    }
+
+    #level-intro-screen .level-intro-stats strong {
+        font-size: 13px;
+    }
+
+    #level-intro-screen #start-level-one,
+    #level-intro-screen #back-to-characters {
+        min-height: 42px;
+        font-size: 12px;
+    }
+}
+
+/* ==========================================
+   LEVEL 01 - NO SCROLLBAR + CENTERED
+========================================== */
+
+#level-intro-screen.screen.active {
+    height: 100dvh;
+    overflow: hidden;
+}
+
+#level-intro-screen .level-intro-content {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+    padding: 12px;
+    overflow: hidden;
+}
+
+/* LEVEL CARD */
+
+#level-intro-screen .level-intro-card {
+    width: min(80vw, 600px);
+    max-width: 600px;
+
+    height: auto;
+    max-height: none;
+
+    padding: 20px 26px;
+
+    overflow: visible;
+    flex-shrink: 1;
+}
+
+/* COMPACT SPACING */
+
+#level-intro-screen .level-intro-label {
+    margin-bottom: 4px;
+    font-size: 11px;
+}
+
+#level-intro-screen .level-intro-symbol {
+    font-size: 38px;
+    margin: 8px 0;
+}
+
+#level-intro-screen .level-intro-card h1 {
+    font-size: clamp(24px, 3vw, 36px);
+}
+
+#level-intro-screen .level-intro-card h2 {
+    margin-top: 6px;
+    font-size: 19px;
+}
+
+#level-intro-screen .level-intro-date {
+    margin-top: 5px;
+}
+
+#level-intro-screen .level-intro-player {
+    margin: 12px 0;
+}
+
+#level-intro-screen .level-intro-description {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+#level-intro-screen .level-intro-stats {
+    margin-bottom: 12px;
+    gap: 8px;
+}
+
+#level-intro-screen .level-intro-stats div {
+    padding: 10px 5px;
+}
+
+#level-intro-screen #start-level-one,
+#level-intro-screen #back-to-characters {
+    min-height: 40px;
+    padding: 9px 14px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    #level-intro-screen .level-intro-card {
+        width: 94vw;
+        max-width: 440px;
+        padding: 14px 12px;
+    }
+
+    #level-intro-screen .level-intro-symbol {
+        font-size: 28px;
+        margin: 5px 0;
+    }
+
+    #level-intro-screen .level-intro-card h1 {
+        font-size: 23px;
+    }
+
+    #level-intro-screen .level-intro-card h2 {
+        font-size: 15px;
+    }
+
+    #level-intro-screen .level-intro-player {
+        margin: 8px 0;
+    }
+
+    #level-intro-screen .level-intro-description {
+        font-size: 12px;
+        line-height: 1.3;
+        margin-bottom: 9px;
+    }
+
+    #level-intro-screen .level-intro-stats {
+        margin-bottom: 9px;
+    }
+
+    #level-intro-screen .level-intro-stats div {
+        padding: 8px 4px;
+    }
+
+    #level-intro-screen #start-level-one,
+    #level-intro-screen #back-to-characters {
+        min-height: 36px;
+        padding: 8px;
+        font-size: 12px;
+    }
+}
+
+/* Keep controls accessible on very short screens */
+
+@media (max-height: 600px) {
+    #level-intro-screen .level-intro-content {
+        overflow-y: auto;
+        justify-content: safe center;
+    }
+
+    #level-intro-screen .level-intro-card {
+        flex-shrink: 0;
+    }
+}
