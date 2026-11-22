@@ -51,7 +51,6 @@ let rushQuizPoints = 0;
 let activeQuiz = -1;
 
 let previewInterval = null;
-let motionInterval = null;
 
 let playerGuess = {
     distance: null,
@@ -1054,22 +1053,6 @@ function showRushResults(result) {
 }
 
 
-// HOLD BUTTON TO WALK
-
-function holdRushMotion(direction) {
-
-    stopRushMotion();
-
-    moveRushPlayer(direction);
-
-    if (rushPhase !== "playing") return;
-
-    motionInterval = setInterval(() => {
-        moveRushPlayer(direction);
-    }, 95);
-}
-
-
 /* =====================================
    MOVEMENT CONTROL FIX
 ===================================== */
@@ -1290,13 +1273,6 @@ if (rushGuessForm) {
                     17
                 );
 
-                // Move mobile screen to map
-                document.querySelector(
-                    ".map-game-area"
-                ).scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
 
             }, 250);
 

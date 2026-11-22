@@ -182,11 +182,11 @@ document.getElementById("how-btn").addEventListener(
     "click",
     () => {
         alert(
-            "MANIFEST WORLD TOUR\n\n" +
+            "MANIFEST RUSH: CATCH THE CONCERT\n\n" +
             "1. Choose your Manifest character.\n" +
-            "2. Explore concert cities on the map.\n" +
-            "3. Plan your routes and manage your budget.\n" +
-            "4. Complete missions and earn points!"
+            "2. Choose Istanbul and study the route for 20 seconds.\n" +
+            "3. Guess distance (±100 m) and time (±2 min).\n" +
+            "4. Walk to JJ Arena, answer two star quizzes, earn up to 400 points!"
         );
     }
 );
