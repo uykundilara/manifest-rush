@@ -1097,6 +1097,256 @@ button {
 }
 
 
+/* MANIFEST RUSH - GAME TITLES */
+
+.rush-main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.rush-main-title span {
+    display: block;
+    font-size: clamp(18px, 3vw, 36px);
+    letter-spacing: 4px;
+    color: #ffb9e8;
+}
+
+.rush-header-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.2;
+}
+
+.rush-header-title span {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #dfc0eb;
+}
+
+@media (max-width: 650px) {
+    .rush-main-title {
+        font-size: clamp(32px, 9vw, 48px) !important;
+    }
+
+    .rush-main-title span {
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+
+    .rush-header-title {
+        font-size: 14px !important;
+    }
+
+    .rush-header-title span {
+        font-size: 8px;
+        letter-spacing: 0.6px;
+    }
+}
+
+
+/* SMALL MAP LOCATION LABELS */
+
+.leaflet-tooltip.rush-small-tooltip {
+    background: rgba(27, 13, 44, 0.88);
+    color: white;
+    border: 1px solid var(--player-color, #a66cff);
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    box-shadow: none;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.leaflet-tooltip.rush-small-tooltip::before {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .leaflet-tooltip.rush-small-tooltip {
+        font-size: 9px;
+        padding: 2px 4px;
+    }
+}
+
+
+/* =====================================
+   LEVEL 01 INTRODUCTION SCREEN
+===================================== */
+
+#level-intro-screen {
+    min-height: 100dvh;
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(166,108,255,.22),
+            transparent 60%
+        ),
+        #10091d;
+}
+
+.level-intro-content {
+    min-height: 100dvh;
+    padding: 35px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.level-intro-label {
+    color: #e3c7f3;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.level-intro-card {
+    width: 100%;
+    max-width: 560px;
+    padding: 35px 28px;
+    border: 1px solid var(--player-color, #a66cff);
+    border-radius: 25px;
+    background: linear-gradient(
+        145deg,
+        #29153e,
+        #160b25
+    );
+    text-align: center;
+    box-shadow: 0 0 35px rgba(0,0,0,.3);
+}
+
+.level-intro-number {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: var(--player-color, #a66cff);
+    color: #170b24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.level-intro-symbol {
+    margin: 20px 0 10px;
+    font-size: 45px;
+}
+
+.level-intro-card h1 {
+    color: white;
+    font-size: clamp(25px, 5vw, 38px);
+    line-height: 1.2;
+}
+
+.level-intro-card h2 {
+    color: var(--player-color, #a66cff);
+    font-size: 18px;
+    margin-top: 12px;
+}
+
+.level-intro-date {
+    color: #d9bce8;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.level-intro-player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 22px 0;
+    font-weight: bold;
+    color: var(--player-color, #a66cff);
+}
+
+.level-intro-player img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--player-color, #a66cff);
+}
+
+.level-intro-description {
+    color: #e2d1ed;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto 24px;
+}
+
+.level-intro-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.level-intro-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.07);
+    padding: 14px 6px;
+}
+
+.level-intro-stats strong {
+    color: white;
+    font-size: 15px;
+}
+
+.level-intro-stats span {
+    color: #d9c1e6;
+    font-size: 10px;
+}
+
+#start-level-one {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+}
+
+#back-to-characters {
+    width: 100%;
+    min-height: 45px;
+}
+
+@media (max-width: 650px) {
+    .level-intro-content {
+        padding: 22px 14px;
+    }
+
+    .level-intro-card {
+        padding: 26px 17px;
+    }
+
+    .level-intro-card h2 {
+        font-size: 16px;
+    }
+
+    .level-intro-stats {
+        gap: 6px;
+    }
+
+    .level-intro-stats strong {
+        font-size: 12px;
+    }
+
+    .level-intro-stats span {
+        font-size: 9px;
+    }
+}
+
 
 /* ==========================================
    MANIFEST RUSH: CATCH THE CONCERT

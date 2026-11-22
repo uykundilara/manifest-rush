@@ -160,8 +160,19 @@ document.documentElement.style.setProperty(
 );
 
 
-    // Open the world tour
-    showScreen("tour-screen");
+    
+// Prepare Level 01 introduction
+document.getElementById(
+    "intro-player-image"
+).src = selectedCharacter.image;
+
+document.getElementById(
+    "intro-player-name"
+).textContent = selectedCharacter.name;
+
+// Show level introduction
+showScreen("level-intro-screen");
+
 
 });
 
@@ -205,3 +216,28 @@ if (savedCharacterId && characters[savedCharacterId]) {
 
     confirmButton.disabled = false;
 }
+
+
+/* =====================================
+   LEVEL 01 INTRO NAVIGATION
+===================================== */
+
+// Start first level
+document.getElementById("start-level-one")
+    .addEventListener("click", () => {
+
+        showScreen("tour-screen");
+
+        setTimeout(() => {
+            if (window.gameMap) {
+                window.gameMap.invalidateSize();
+            }
+        }, 200);
+    });
+
+// Return to character selection
+document.getElementById("back-to-characters")
+    .addEventListener("click", () => {
+
+        showScreen("character-screen");
+    });

@@ -338,13 +338,17 @@ async function startRushLevel() {
             }
         ).addTo(map);
 
-        rushStartMarker.bindTooltip(
-            "🚩 START",
-            {
-                permanent: true,
-                direction: "top"
-            }
-        );
+        
+rushStartMarker.bindTooltip(
+    "START",
+    {
+        permanent: true,
+        direction: "top",
+        offset: [0, -8],
+        className: "rush-small-tooltip"
+    }
+);
+
 
         rushDestinationMarker = L.circleMarker(
             rushRouteData.coordinates.at(-1),
@@ -357,13 +361,17 @@ async function startRushLevel() {
             }
         ).addTo(map);
 
-        rushDestinationMarker.bindTooltip(
-            "🎤 JJ ARENA",
-            {
-                permanent: true,
-                direction: "top"
-            }
-        );
+        
+rushDestinationMarker.bindTooltip(
+    "JJ ARENA",
+    {
+        permanent: true,
+        direction: "top",
+        offset: [0, -8],
+        className: "rush-small-tooltip"
+    }
+);
+
 
         map.fitBounds(
             rushRouteLine.getBounds(),
