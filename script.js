@@ -82,9 +82,11 @@ function showScreen(screenId) {
 
 // 5. START GAME
 
+
 startButton.addEventListener("click", () => {
-    showScreen("character-screen");
+    window.ManifestAccount.openGate();
 });
+
 
 // 6. BACK TO HOME
 

@@ -44,6 +44,89 @@
     </section>
 
 
+<!-- PLAYER REGISTRATION / LOGIN -->
+<section id="auth-screen" class="screen">
+
+    <div class="account-card">
+
+        <p class="account-eyebrow">
+            MANIFEST RUSH · PLAYER ACCOUNT
+        </p>
+
+        <h1 id="account-title">JOIN THE RUSH!</h1>
+
+        <p class="account-subtitle">
+            Kullanıcı adınla farklı cihazlardan
+            oyununa devam et!
+        </p>
+
+        <div class="account-tabs">
+            <button type="button" id="tab-register"
+                    class="account-tab active">
+                REGISTER
+            </button>
+
+            <button type="button" id="tab-login"
+                    class="account-tab">
+                LOGIN
+            </button>
+        </div>
+
+        <form id="player-auth-form" class="account-form">
+
+            <label for="account-username">USERNAME</label>
+
+            <input
+                id="account-username"
+                autocomplete="username"
+                minlength="3"
+                maxlength="20"
+                pattern="[A-Za-z0-9_]{3,20}"
+                placeholder="Choose your username"
+                required
+            >
+
+            <label for="account-password">PASSWORD</label>
+
+            <input
+                id="account-password"
+                type="password"
+                autocomplete="new-password"
+                minlength="8"
+                placeholder="Enter your password"
+                required
+            >
+
+            <p id="account-hint">
+                Kullanıcı adı: 3–20 karakter.
+                Şifre: en az 8 karakter.
+            </p>
+
+            <p id="account-error"
+               role="alert"
+               aria-live="polite"></p>
+
+            <button
+                id="account-submit"
+                type="submit"
+                class="main-button">
+                CREATE ACCOUNT →
+            </button>
+
+        </form>
+
+        <button
+            id="account-back"
+            type="button"
+            class="secondary-button">
+            ← BACK TO HOME
+        </button>
+
+    </div>
+
+</section>
+
+
     <!-- 2. KARAKTER SEÇME EKRANI -->
     <section id="character-screen" class="screen">
 
@@ -438,10 +521,17 @@
     <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-config.js"></script> 
+
     <!-- Our JavaScript -->
     <script src="script.js"></script>
     <script src="map.js"></script>
     <script src="rush.js"></script>
+
+    <!-- Player Registration / Login -->
+    <script src="account.js"></script>
 
 </body>
 </html>

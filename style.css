@@ -947,3 +947,114 @@ button:focus-visible,input:focus-visible,.character-card:focus-visible{outline:2
         padding: 10px;
     }
 }
+
+/* MANIFEST RUSH - PLAYER ACCOUNT */
+
+#auth-screen.screen.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+#auth-screen .account-card {
+    width: min(100%, 440px);
+    max-height: calc(100dvh - 30px);
+    overflow-y: auto;
+    padding: clamp(18px, 3vw, 30px);
+    border: 1px solid #ff75bc;
+    border-radius: 22px;
+    background: #251335;
+    text-align: center;
+}
+
+#auth-screen .account-eyebrow {
+    color: #e0b7f0;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+#auth-screen h1 {
+    color: #ff75bc;
+    margin: 14px 0 8px;
+    font-size: clamp(24px, 5vw, 34px);
+}
+
+#auth-screen .account-subtitle {
+    font-size: 13px;
+    color: #dec8e9;
+    margin-bottom: 20px;
+}
+
+#auth-screen .account-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#auth-screen .account-tab {
+    padding: 12px;
+    background: #402354;
+    border: 1px solid #9567ac;
+    border-radius: 10px;
+    color: white;
+}
+
+#auth-screen .account-tab.active {
+    background: #d447b9;
+    border-color: #ff75bc;
+}
+
+#auth-screen .account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+#auth-screen .account-form label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#auth-screen .account-form input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #8957a4;
+    background: #170d25;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+#auth-screen #account-hint {
+    font-size: 11px;
+    color: #d4bfe3;
+}
+
+#auth-screen #account-error {
+    color: #ff889a;
+    font-size: 12px;
+}
+
+#auth-screen #account-submit {
+    width: 100%;
+    margin-top: 7px;
+}
+
+#auth-screen #account-back {
+    margin-top: 14px;
+}
+
+@media (max-width: 650px) {
+    #auth-screen .account-card {
+        padding: 20px 16px;
+    }
+
+    #auth-screen .account-subtitle {
+        margin-bottom: 12px;
+    }
+}
