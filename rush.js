@@ -2,10 +2,12 @@
 /* ==========================================
    MANIFEST RUSH: CATCH THE CONCERT
    LEVEL 01 - THE FIRST CONCERT
-   Real Route + Quiz + Scoring + Concert
+   REAL ROUTE + QUIZ + SCORING + MISSIONS
 ========================================== */
 
-// LOCATION AND GAME SETTINGS
+// ==========================================
+// 1. GAME SETTINGS
+// ==========================================
 
 const rushStart = [40.9923, 29.0920];
 const rushDestination = [40.99757, 29.09937];
@@ -16,7 +18,9 @@ const QUIZ_FRACTIONS = [0.35, 0.70];
 const RUSH_VIDEO_PATH =
     "assets/videos/istanbul-concert.mp4";
 
-// MANIFEST QUESTIONS
+// ==========================================
+// 2. MANIFEST QUESTIONS
+// ==========================================
 
 const rushQuestions = [
     {
@@ -31,9 +35,12 @@ const rushQuestions = [
     }
 ];
 
-// GAME STATE
+// ==========================================
+// 3. GAME STATE
+// ==========================================
 
 let rushPhase = "idle";
+
 let rushRoute = [];
 let rushRouteData = null;
 let currentRouteIndex = 0;
@@ -47,17 +54,21 @@ let rushStartMarker = null;
 let rushQuizMarkers = [];
 let rushQuizIndexes = [];
 let rushQuizAnswered = [false, false];
+
 let rushQuizPoints = 0;
 let activeQuiz = -1;
 
 let previewInterval = null;
+let rushMotionTimer = null;
 
 let playerGuess = {
     distance: null,
     time: null
 };
 
-// HELPERS
+// ==========================================
+// 4. HELPERS
+// ==========================================
 
 function rushElement(id) {
     return document.getElementById(id);
@@ -81,9 +92,75 @@ function rushColor() {
     return color || "#a66cff";
 }
 
-// DECODE VALHALLA ROUTE
+// ==========================================
+// 5. DYNAMIC MISSION SYSTEM
+// ==========================================
+
+const rushMissions = {
+    1: {
+        text: "EKRANDAKİ YILDIZA TIKLA",
+        icon: "⭐",
+        progress: "25%"
+    },
+
+    2: {
+        text: "20 SANİYE İNCELE, MESAFE VE YÜRÜME SÜRESİNİ TAHMİN ET",
+        icon: "🗺️",
+        progress: "50%"
+    },
+
+    3: {
+        text: "ROTADA İLERLE, YILDIZ SORULARINI CEVAPLA",
+        icon: "🎯",
+        progress: "75%"
+    },
+
+    4: {
+        text: "KONSER ALANINA ULAŞ VE PUANINI GÖR",
+        icon: "🎤",
+        progress: "100%"
+    }
+};
+
+function updateMission(step) {
+
+    const text = rushElement("mission-text");
+    const icon = rushElement("mission-icon");
+    const progress = rushElement("mission-progress-fill");
+
+    if (!text || !icon || !progress) return;
+
+    const mission = rushMissions[step];
+
+    if (!mission) return;
+
+    text.textContent = mission.text;
+    icon.textContent = mission.icon;
+    progress.style.width = mission.progress;
+}
+
+// Initial mission
+
+function initializeRushMission() {
+    updateMission(1);
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeRushMission,
+        { once: true }
+    );
+} else {
+    initializeRushMission();
+}
+
+// ==========================================
+// 6. DECODE VALHALLA POLYLINE
+// ==========================================
 
 function decodePolyline6(encoded) {
+
     const coordinates = [];
 
     let index = 0;
@@ -91,9 +168,11 @@ function decodePolyline6(encoded) {
     let lng = 0;
 
     while (index < encoded.length) {
+
         const pair = [];
 
         for (let axis = 0; axis < 2; axis++) {
+
             let result = 0;
             let shift = 0;
             let byte;
@@ -128,7 +207,9 @@ function decodePolyline6(encoded) {
     return coordinates;
 }
 
-// GET REAL PEDESTRIAN ROUTE
+// ==========================================
+// 7. GET REAL PEDESTRIAN ROUTE
+// ==========================================
 
 async function getRealWalkingRoute() {
 
@@ -168,9 +249,11 @@ async function getRealWalkingRoute() {
     const data = await response.json();
 
     const encoded = data.trip?.legs?.[0]?.shape;
+
     const distanceKm = Number(
         data.trip?.summary?.length
     );
+
     const durationSeconds = Number(
         data.trip?.summary?.time
     );
@@ -198,12 +281,15 @@ async function getRealWalkingRoute() {
     };
 }
 
-// CREATE MOVEMENT POINTS
+// ==========================================
+// 8. CREATE MOVEMENT POINTS
+// ==========================================
 
 function createMovementPoints(
     coordinates,
     stepMeters = 12
 ) {
+
     const points = [coordinates[0]];
 
     for (let i = 1; i < coordinates.length; i++) {
@@ -217,6 +303,7 @@ function createMovementPoints(
         );
 
         for (let j = 1; j <= count; j++) {
+
             const t = j / count;
 
             points.push([
@@ -229,7 +316,9 @@ function createMovementPoints(
     return points;
 }
 
-// SELECTED CHARACTER ICON
+// ==========================================
+// 9. SELECTED CHARACTER ICON
+// ==========================================
 
 function createRushPlayerIcon() {
 
@@ -249,25 +338,32 @@ function createRushPlayerIcon() {
 
     return L.divIcon({
         className: "player-marker",
+
         html: `
             <div class="rush-avatar"
                  style="--player-color:${color}">
                 <img src="${image}" alt="${name}">
             </div>
         `,
+
         iconSize: [54, 54],
         iconAnchor: [27, 27]
     });
 }
 
-// MOVEMENT CONTROLS
+// ==========================================
+// 10. MOVEMENT CONTROLS
+// ==========================================
 
 function setRushControls(visible) {
+
     rushElement("movement-controls")
         ?.classList.toggle("visible", visible);
 }
 
-// REMOVE MAP OBJECTS
+// ==========================================
+// 11. REMOVE MAP OBJECTS
+// ==========================================
 
 function removeRushLayers() {
 
@@ -281,7 +377,10 @@ function removeRushLayers() {
         rushStartMarker,
         ...rushQuizMarkers
     ].forEach(layer => {
-        if (layer) map.removeLayer(layer);
+
+        if (layer) {
+            map.removeLayer(layer);
+        }
     });
 
     rushPlayerMarker = null;
@@ -289,10 +388,13 @@ function removeRushLayers() {
     rushProgressLine = null;
     rushDestinationMarker = null;
     rushStartMarker = null;
+
     rushQuizMarkers = [];
 }
 
-// START LEVEL - REAL ROUTE PREVIEW
+// ==========================================
+// 12. START LEVEL / MAP PREVIEW
+// ==========================================
 
 async function startRushLevel() {
 
@@ -301,14 +403,17 @@ async function startRushLevel() {
         rushPhase === "quiz"
     ) {
         rushMap().flyTo(
-            rushRoute[currentRouteIndex], 17
+            rushRoute[currentRouteIndex],
+            17
         );
+
         return;
     }
 
     if (rushPhase !== "idle") return;
 
     rushPhase = "loading";
+
     setRushControls(false);
 
     try {
@@ -316,6 +421,8 @@ async function startRushLevel() {
         rushRouteData = await getRealWalkingRoute();
 
         const map = rushMap();
+
+        // Show route
 
         rushRouteLine = L.polyline(
             rushRouteData.coordinates,
@@ -325,6 +432,8 @@ async function startRushLevel() {
                 opacity: 0.9
             }
         ).addTo(map);
+
+        // Start marker
 
         rushStartMarker = L.circleMarker(
             rushRouteData.coordinates[0],
@@ -337,17 +446,17 @@ async function startRushLevel() {
             }
         ).addTo(map);
 
-        
-rushStartMarker.bindTooltip(
-    "START",
-    {
-        permanent: true,
-        direction: "top",
-        offset: [0, -8],
-        className: "rush-small-tooltip"
-    }
-);
+        rushStartMarker.bindTooltip(
+            "START",
+            {
+                permanent: true,
+                direction: "top",
+                offset: [0, -8],
+                className: "rush-small-tooltip"
+            }
+        );
 
+        // Destination marker
 
         rushDestinationMarker = L.circleMarker(
             rushRouteData.coordinates.at(-1),
@@ -360,17 +469,15 @@ rushStartMarker.bindTooltip(
             }
         ).addTo(map);
 
-        
-rushDestinationMarker.bindTooltip(
-    "JJ ARENA",
-    {
-        permanent: true,
-        direction: "top",
-        offset: [0, -8],
-        className: "rush-small-tooltip"
-    }
-);
-
+        rushDestinationMarker.bindTooltip(
+            "JJ ARENA",
+            {
+                permanent: true,
+                direction: "top",
+                offset: [0, -8],
+                className: "rush-small-tooltip"
+            }
+        );
 
         map.fitBounds(
             rushRouteLine.getBounds(),
@@ -380,13 +487,20 @@ rushDestinationMarker.bindTooltip(
             }
         );
 
+        // Preview begins successfully
+
         rushPhase = "preview";
+
+        // AUTOMATIC MISSION 2
+        updateMission(2);
 
         const panel = rushElement(
             "map-preview-panel"
         );
 
-        if (panel) panel.hidden = false;
+        if (panel) {
+            panel.hidden = false;
+        }
 
         let remaining = PREVIEW_SECONDS;
 
@@ -408,6 +522,7 @@ rushDestinationMarker.bindTooltip(
             }
 
             if (remaining <= 0) {
+
                 clearInterval(previewInterval);
                 previewInterval = null;
 
@@ -418,9 +533,15 @@ rushDestinationMarker.bindTooltip(
 
     } catch (error) {
 
-        console.error("Rota yükleme hatası:", error);
+        console.error(
+            "Rota yükleme hatası:",
+            error
+        );
 
         rushPhase = "idle";
+
+        // Return to first mission on error
+        updateMission(1);
 
         alert(
             "Gerçek yürüyüş rotası yüklenemedi. " +
@@ -429,42 +550,42 @@ rushDestinationMarker.bindTooltip(
     }
 }
 
-// FINISH PREVIEW
-
+// ==========================================
+// 13. FINISH MAP PREVIEW
+// ==========================================
 
 function finishMapPreview() {
 
     if (rushPhase !== "preview") return;
 
-    // Stop preview timer
     if (previewInterval !== null) {
+
         clearInterval(previewInterval);
         previewInterval = null;
     }
 
     rushPhase = "guess";
 
-    const previewPanel = document.getElementById(
+    const previewPanel = rushElement(
         "map-preview-panel"
     );
 
-    const guessOverlay = document.getElementById(
+    const guessOverlay = rushElement(
         "guess-overlay"
     );
 
-    // Hide countdown
     if (previewPanel) {
         previewPanel.hidden = true;
     }
 
-    // Show estimation screen
     if (guessOverlay) {
+
         guessOverlay.hidden = false;
         guessOverlay.style.display = "flex";
 
         document.body.style.overflow = "hidden";
 
-        const distanceInput = document.getElementById(
+        const distanceInput = rushElement(
             "guess-distance"
         );
 
@@ -475,12 +596,16 @@ function finishMapPreview() {
         console.log("Estimation screen opened!");
 
     } else {
-        console.error("guess-overlay bulunamadı!");
+
+        console.error(
+            "guess-overlay bulunamadı!"
+        );
     }
 }
 
-
-// FIND TWO QUIZ POSITIONS
+// ==========================================
+// 14. FIND QUIZ POSITIONS
+// ==========================================
 
 function findRushQuizIndexes(route) {
 
@@ -516,7 +641,9 @@ function findRushQuizIndexes(route) {
     });
 }
 
-// CREATE QUIZ STARS
+// ==========================================
+// 15. CREATE QUIZ STARS
+// ==========================================
 
 function createRushQuizStars() {
 
@@ -548,14 +675,18 @@ function createRushQuizStars() {
     );
 }
 
-// LAUNCH WALKING GAME
+// ==========================================
+// 16. LAUNCH WALKING ROUTE
+// ==========================================
 
 async function launchRushRoute() {
 
     if (
         rushPhase !== "guess" ||
         !rushRouteData
-    ) return;
+    ) {
+        return;
+    }
 
     const map = rushMap();
 
@@ -571,9 +702,12 @@ async function launchRushRoute() {
     rushPhase = "playing";
 
     if (rushStartMarker) {
+
         map.removeLayer(rushStartMarker);
         rushStartMarker = null;
     }
+
+    // Orange completed route
 
     rushProgressLine = L.polyline(
         [rushRoute[0]],
@@ -582,6 +716,8 @@ async function launchRushRoute() {
             weight: 7
         }
     ).addTo(map);
+
+    // Player marker
 
     rushPlayerMarker = L.marker(
         rushRoute[0],
@@ -602,7 +738,9 @@ async function launchRushRoute() {
     }
 }
 
-// MOVE PLAYER ALONG REAL ROUTE
+// ==========================================
+// 17. MOVE PLAYER
+// ==========================================
 
 function moveRushPlayer(direction) {
 
@@ -645,6 +783,7 @@ function moveRushPlayer(direction) {
     );
 
     if (index >= 0) {
+
         openRushQuiz(index);
         return;
     }
@@ -656,11 +795,14 @@ function moveRushPlayer(direction) {
     }
 }
 
-// OPEN QUIZ SCREEN
+// ==========================================
+// 18. OPEN QUIZ
+// ==========================================
 
 function openRushQuiz(index) {
 
     rushPhase = "quiz";
+
     stopRushMotion();
 
     activeQuiz = index;
@@ -707,7 +849,9 @@ function openRushQuiz(index) {
     rushElement("quiz-overlay").hidden = false;
 }
 
-// CHECK QUIZ ANSWER
+// ==========================================
+// 19. CHECK QUIZ ANSWER
+// ==========================================
 
 function answerRushQuiz(index, chosen) {
 
@@ -715,7 +859,9 @@ function answerRushQuiz(index, chosen) {
         rushPhase !== "quiz" ||
         rushQuizAnswered[index] ||
         index !== activeQuiz
-    ) return;
+    ) {
+        return;
+    }
 
     rushQuizAnswered[index] = true;
 
@@ -769,16 +915,13 @@ function answerRushQuiz(index, chosen) {
     rushElement("quiz-continue").hidden = false;
 }
 
-
-/* ==========================================
-   MANIFEST RUSH - ESTIMATION SCORING
-   Distance tolerance: ±100 meters
-   Walking time tolerance: ±2 minutes
-========================================== */
+// ==========================================
+// 20. ESTIMATION SCORING
+// ±100 METERS / ±2 MINUTES
+// ==========================================
 
 function scoreRushEstimates() {
 
-    // Calculate absolute estimation errors
     const distanceError = Math.abs(
         playerGuess.distance - rushRouteData.distance
     );
@@ -787,18 +930,14 @@ function scoreRushEstimates() {
         playerGuess.time - rushRouteData.time
     );
 
-    // DISTANCE: Maximum 100 points
     const distancePoints =
         distanceError <= 100 ? 100 : 0;
 
-    // WALKING TIME: Maximum 100 points
     const timePoints =
         timeError <= 2 ? 100 : 0;
 
-    // MANIFEST QUIZ: Maximum 200 points
     const quizPoints = rushQuizPoints;
 
-    // TOTAL: Maximum 400 points
     const totalPoints =
         distancePoints + timePoints + quizPoints;
 
@@ -813,7 +952,9 @@ function scoreRushEstimates() {
 }
 
 
-// COMPLETE THE CONCERT LEVEL
+/* ==========================================
+   COMPLETE LEVEL + SAVE SCORE TO SUPABASE
+========================================== */
 
 function completeRushLevel() {
 
@@ -821,20 +962,52 @@ function completeRushLevel() {
 
     rushPhase = "completed";
 
+    updateMission(4);
+
     stopRushMotion();
     setRushControls(false);
 
+    // Calculate final score
     const result = scoreRushEstimates();
 
+    // Update score on screen
     rushElement("score").textContent =
         String(result.totalPoints);
 
+    // Save score to Supabase
+    if (window.ManifestAccount?.saveScore) {
+
+        window.ManifestAccount
+            .saveScore(1, result.totalPoints)
+            .then(() => {
+                console.log(
+                    "✅ Score saved to Supabase:",
+                    result.totalPoints
+                );
+            })
+            .catch(error => {
+                console.error(
+                    "❌ Score could not be saved:",
+                    error
+                );
+            });
+
+    } else {
+        console.error(
+            "ManifestAccount.saveScore is unavailable."
+        );
+    }
+
+    // Show concert video
     showRushConcertVideo(
         () => showRushResults(result)
     );
 }
 
-// PLAY 15-SECOND CONCERT VIDEO
+
+// ==========================================
+// 22. CONCERT VIDEO - 14 SECONDS
+// ==========================================
 
 function showRushConcertVideo(onFinish) {
 
@@ -898,7 +1071,9 @@ function showRushConcertVideo(onFinish) {
 
         try {
             await video.play();
+
         } catch (error) {
+
             message.textContent =
                 "Video açılamadı. Dosya yolunu " +
                 "kontrol edip sonuçlara geçebilirsin.";
@@ -906,6 +1081,7 @@ function showRushConcertVideo(onFinish) {
     });
 
     video.addEventListener("timeupdate", () => {
+
         if (video.currentTime >= 14) {
             finish();
         }
@@ -914,6 +1090,7 @@ function showRushConcertVideo(onFinish) {
     video.addEventListener("ended", finish);
 
     video.addEventListener("error", () => {
+
         message.textContent =
             "Video dosyası bulunamadı. " +
             "assets/videos/istanbul-concert.mp4 " +
@@ -935,34 +1112,41 @@ function showRushConcertVideo(onFinish) {
     document.body.appendChild(overlay);
 }
 
-// FINAL RESULTS SCREEN
-
-
-/* ==========================================
-   MANIFEST RUSH - MODERN RESULTS SCREEN
-========================================== */
+// ==========================================
+// 23. FINAL RESULTS SCREEN
+// ==========================================
 
 function showRushResults(result) {
 
-    document.getElementById("rush-results")?.remove();
+    rushElement("rush-results")?.remove();
 
     const overlay = document.createElement("div");
+
     overlay.id = "rush-results";
     overlay.className = "game-overlay";
 
     const panel = document.createElement("div");
+
     panel.className = "rush-results-panel";
 
-    const distanceGuess = playerGuess.distance.toFixed(0);
-    const distanceActual = rushRouteData.distance.toFixed(0);
+    const distanceGuess =
+        playerGuess.distance.toFixed(0);
 
-    const timeGuess = playerGuess.time.toFixed(1);
-    const timeActual = rushRouteData.time.toFixed(1);
+    const distanceActual =
+        rushRouteData.distance.toFixed(0);
 
-    const correctAnswers = rushQuizPoints / 100;
+    const timeGuess =
+        playerGuess.time.toFixed(1);
+
+    const timeActual =
+        rushRouteData.time.toFixed(1);
+
+    const correctAnswers =
+        rushQuizPoints / 100;
 
     panel.innerHTML = `
         <div class="rush-results-header">
+
             <div class="rush-trophy">🏆</div>
 
             <p class="rush-level">
@@ -974,11 +1158,13 @@ function showRushResults(result) {
             <p class="rush-location">
                 JJ Arena · İstanbul
             </p>
+
         </div>
 
         <div class="rush-comparison">
 
             <div class="rush-result-card">
+
                 <h3>TAHMİNİN</h3>
 
                 <span>Mesafe</span>
@@ -986,9 +1172,11 @@ function showRushResults(result) {
 
                 <span>Yürüme süresi</span>
                 <strong>${timeGuess} dk</strong>
+
             </div>
 
             <div class="rush-result-card">
+
                 <h3>GERÇEK ROTA</h3>
 
                 <span>Mesafe</span>
@@ -996,45 +1184,61 @@ function showRushResults(result) {
 
                 <span>Yürüme süresi</span>
                 <strong>${timeActual} dk</strong>
+
             </div>
 
         </div>
 
         <div class="rush-differences">
+
             <h3>TAHMİN FARKLARIN</h3>
 
             <div class="rush-difference-row">
+
                 <span>Mesafe farkı</span>
+
                 <strong>
                     ${result.distanceError.toFixed(1)} m
                     · +${result.distancePoints} puan
                 </strong>
+
             </div>
 
             <div class="rush-difference-row">
+
                 <span>Süre farkı</span>
+
                 <strong>
                     ${result.timeError.toFixed(1)} dk
                     · +${result.timePoints} puan
                 </strong>
+
             </div>
 
             <div class="rush-difference-row">
+
                 <span>Manifest soruları</span>
+
                 <strong>
                     ${correctAnswers}/2 doğru
                     · +${result.quizPoints} puan
                 </strong>
+
             </div>
+
         </div>
 
         <div class="rush-final-score">
+
             <p>KAZANDIĞIN TOPLAM PUAN</p>
 
             <h2>${result.totalPoints} / 400</h2>
+
         </div>
 
-        <button id="rush-back-map" class="rush-back-button">
+        <button
+            id="rush-back-map"
+            class="rush-back-button">
             NEXT LEVEL → LEVEL 02
         </button>
 
@@ -1044,54 +1248,50 @@ function showRushResults(result) {
     `;
 
     overlay.appendChild(panel);
+
     document.body.appendChild(overlay);
 
-    
-document.getElementById("rush-back-map")
-    .addEventListener("click", () => {
+    rushElement("rush-back-map")
+        .addEventListener("click", () => {
 
-        // Close Level 01 results
-        overlay.remove();
+            overlay.remove();
 
-        // Show Ankara - Level 02 location
-        const ankara = concertCities.ankara;
+            const ankara = concertCities.ankara;
 
-        window.gameMap.invalidateSize();
+            window.gameMap.invalidateSize();
 
-        window.gameMap.flyTo(
-            ankara.coordinates,
-            11
-        );
+            window.gameMap.flyTo(
+                ankara.coordinates,
+                11
+            );
 
-        // Level 02 is not playable yet
-        cityMarkers.ankara
-            .bindPopup(`
-                <h3>🎤 LEVEL 02 — ANKARA</h3>
-                <p>COMING SOON!</p>
-                <p>Next concert mission is being prepared.</p>
-            `)
-            .openPopup();
-    });
-
+            cityMarkers.ankara
+                .bindPopup(`
+                    <h3>🎤 LEVEL 02 — ANKARA</h3>
+                    <p>COMING SOON!</p>
+                    <p>Next concert mission is being prepared.</p>
+                `)
+                .openPopup();
+        });
 }
 
+// ==========================================
+// 24. STOP PLAYER MOVEMENT
+// ==========================================
 
-/* =====================================
-   MOVEMENT CONTROL FIX
-===================================== */
-
-let rushMotionTimer = null;
-
-// Stop character movement
 function stopRushMotion() {
 
     if (rushMotionTimer !== null) {
+
         clearInterval(rushMotionTimer);
         rushMotionTimer = null;
     }
 }
 
-// Start movement while button is held
+// ==========================================
+// 25. HOLD TO MOVE
+// ==========================================
+
 function holdRushMotion(direction) {
 
     stopRushMotion();
@@ -1109,6 +1309,7 @@ function holdRushMotion(direction) {
     rushMotionTimer = setInterval(() => {
 
         if (rushPhase !== "playing") {
+
             stopRushMotion();
             return;
         }
@@ -1118,7 +1319,9 @@ function holdRushMotion(direction) {
     }, 95);
 }
 
-// BIND PHONE BUTTONS
+// ==========================================
+// 26. MOBILE BUTTON CONTROLS
+// ==========================================
 
 function bindRushControl(id, direction) {
 
@@ -1154,21 +1357,25 @@ function bindRushControl(id, direction) {
     });
 }
 
-// HIDE UNUSED LEFT AND RIGHT BUTTONS
+// Hide unused movement buttons
 
 ["move-left", "move-right"].forEach(id => {
 
     const button = rushElement(id);
 
-    if (button) button.hidden = true;
+    if (button) {
+        button.hidden = true;
+    }
 });
 
-// CONNECT WALKING CONTROLS
+// Connect buttons
 
 bindRushControl("move-up", "forward");
 bindRushControl("move-down", "backward");
 
-// KEYBOARD MOVEMENT
+// ==========================================
+// 27. KEYBOARD MOVEMENT
+// ==========================================
 
 document.addEventListener("keydown", event => {
 
@@ -1188,7 +1395,9 @@ document.addEventListener("keydown", event => {
     }
 });
 
-// CONTINUE AFTER ANSWERING QUIZ
+// ==========================================
+// 28. CONTINUE AFTER QUIZ
+// ==========================================
 
 rushElement("quiz-continue")
     ?.addEventListener("click", () => {
@@ -1196,124 +1405,155 @@ rushElement("quiz-continue")
         if (
             rushPhase !== "quiz" ||
             !rushQuizAnswered[activeQuiz]
-        ) return;
+        ) {
+            return;
+        }
 
         rushElement("quiz-overlay").hidden = true;
 
         activeQuiz = -1;
+
         rushPhase = "playing";
     });
 
-// SAVE DISTANCE AND TIME GUESSES
+// ==========================================
+// 29. DISTANCE / TIME GUESS FORM
+// ==========================================
 
-
-
-/* ==========================================
-   MOBILE GAME START FIX
-========================================== */
-
-const rushGuessForm = document.getElementById("guess-form");
+const rushGuessForm = rushElement("guess-form");
 
 if (rushGuessForm) {
 
-    rushGuessForm.addEventListener("submit", async (event) => {
+    rushGuessForm.addEventListener(
+        "submit",
+        async event => {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        console.log("Tahmin formu gönderildi.");
-        console.log("Oyun aşaması:", rushPhase);
+            console.log(
+                "Tahmin formu gönderildi."
+            );
 
-        const distanceInput =
-            document.getElementById("guess-distance");
-
-        const timeInput =
-            document.getElementById("guess-time");
-
-        const distance = Number(distanceInput.value);
-        const time = Number(timeInput.value);
-
-        if (
-            !Number.isFinite(distance) ||
-            !Number.isFinite(time) ||
-            distance <= 0 ||
-            time <= 0
-        ) {
-            alert("Lütfen geçerli mesafe ve süre gir.");
-            return;
-        }
-
-        if (rushPhase !== "guess") {
-            console.error(
-                "Oyun tahmin aşamasında değil:",
+            console.log(
+                "Oyun aşaması:",
                 rushPhase
             );
-            alert("Oyun aşaması hatası: " + rushPhase);
-            return;
-        }
 
-        playerGuess = {
-            distance: distance,
-            time: time
-        };
+            const distanceInput =
+                rushElement("guess-distance");
 
-        console.log("Kaydedilen tahmin:", playerGuess);
+            const timeInput =
+                rushElement("guess-time");
 
-        // Close estimation screen
-        const overlay = document.getElementById(
-            "guess-overlay"
-        );
+            const distance = Number(
+                distanceInput.value
+            );
 
-        overlay.hidden = true;
-        overlay.style.display = "none";
+            const time = Number(
+                timeInput.value
+            );
 
-        // Reset page scrolling
-        document.body.style.overflow = "";
-
-        // Hide mobile keyboard
-        if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur();
-        }
-
-        try {
-
-            // Start playable route
-            await launchRushRoute();
-
-            if (rushPhase !== "playing") {
-                throw new Error(
-                    "Oyun başlatılamadı. Aşama: " + rushPhase
+            if (
+                !Number.isFinite(distance) ||
+                !Number.isFinite(time) ||
+                distance <= 0 ||
+                time <= 0
+            ) {
+                alert(
+                    "Lütfen geçerli mesafe ve süre gir."
                 );
+
+                return;
             }
 
-            // Make Leaflet recalculate map size
-            setTimeout(() => {
+            if (rushPhase !== "guess") {
 
-                window.gameMap.invalidateSize();
-
-                // Center on player
-                window.gameMap.setView(
-                    rushRoute[currentRouteIndex],
-                    17
+                console.error(
+                    "Oyun tahmin aşamasında değil:",
+                    rushPhase
                 );
 
+                alert(
+                    "Oyun aşaması hatası: " + rushPhase
+                );
 
-            }, 250);
+                return;
+            }
 
-            console.log("Oyun başarıyla başladı!");
+            playerGuess = {
+                distance,
+                time
+            };
 
-        } catch (error) {
-
-            console.error(
-                "Manifest Rush başlatma hatası:",
-                error
+            console.log(
+                "Kaydedilen tahmin:",
+                playerGuess
             );
 
-            alert(
-                "Oyun başlatılırken bir hata oluştu.\n" +
-                error.message
-            );
+            // Hide estimation overlay
+
+            const overlay =
+                rushElement("guess-overlay");
+
+            overlay.hidden = true;
+            overlay.style.display = "none";
+
+            document.body.style.overflow = "";
+
+            // Hide mobile keyboard
+
+            if (
+                document.activeElement
+                instanceof HTMLElement
+            ) {
+                document.activeElement.blur();
+            }
+
+            try {
+
+                // Launch playable route
+
+                await launchRushRoute();
+
+                if (rushPhase !== "playing") {
+                    throw new Error(
+                        "Oyun başlatılamadı. Aşama: " +
+                        rushPhase
+                    );
+                }
+
+                // Recalculate Leaflet dimensions
+
+                setTimeout(() => {
+
+                    window.gameMap.invalidateSize();
+
+                    window.gameMap.setView(
+                        rushRoute[currentRouteIndex],
+                        17
+                    );
+
+                }, 250);
+
+                // AUTOMATIC MISSION 3
+                updateMission(3);
+
+                console.log(
+                    "Oyun başarıyla başladı!"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Manifest Rush başlatma hatası:",
+                    error
+                );
+
+                alert(
+                    "Oyun başlatılırken bir hata oluştu.\n" +
+                    error.message
+                );
+            }
         }
-    });
+    );
 }
-
-

@@ -1546,3 +1546,595 @@ button:focus-visible,input:focus-visible,.character-card:focus-visible{outline:2
         padding: 7px 3px;
     }
 }
+
+/* ==========================================
+   MANIFEST RUSH - GLOBAL LEADERBOARD
+========================================== */
+
+#leaderboard-screen.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    padding: 15px;
+    overflow: hidden;
+    background: radial-gradient(
+        circle at center,
+        #351747,
+        #14091f 75%
+    );
+}
+
+#leaderboard-screen .leaderboard-card {
+    width: min(94vw, 650px);
+    max-height: calc(100dvh - 30px);
+    padding: 25px;
+    border: 1px solid #ff75bc;
+    border-radius: 20px;
+    background: #211130;
+    box-shadow: 0 0 25px #ff4db833;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+#leaderboard-screen h1 {
+    color: #ff91d0;
+    font-size: clamp(22px, 3vw, 32px);
+    margin: 0 0 8px;
+    text-shadow: 0 0 12px #ff4db866;
+}
+
+#leaderboard-screen .leaderboard-table-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 15px 0;
+}
+
+#leaderboard-screen .leaderboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 7px;
+    color: white;
+}
+
+#leaderboard-screen .leaderboard-table th {
+    color: #ff91d0;
+    font-size: 12px;
+    padding: 10px;
+}
+
+#leaderboard-screen .leaderboard-table td {
+    background: #382148;
+    padding: 13px 10px;
+    font-size: 14px;
+}
+
+#leaderboard-screen .leaderboard-table td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+#leaderboard-screen .leaderboard-table td:last-child {
+    border-radius: 0 10px 10px 0;
+    color: #ff91d0;
+    font-weight: bold;
+    text-align: right;
+}
+
+#leaderboard-screen .leaderboard-table tr.me td {
+    background: #61315d;
+    outline-color: #ff75bc;
+}
+
+#leaderboard-screen #leaderboard-back {
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 42px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+    #leaderboard-screen .leaderboard-card {
+        width: 96vw;
+        padding: 15px 12px;
+    }
+
+    #leaderboard-screen .leaderboard-table td {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+
+    #leaderboard-screen h1 {
+        font-size: 21px;
+    }
+}
+
+/* ==========================================
+   MANIFEST RUSH - LEADERBOARD SIDEBAR BUTTON
+========================================== */
+
+#tour-screen .leaderboard-sidebar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 44px;
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+
+    background: linear-gradient(
+        135deg,
+        #9f35d6,
+        #ff42ad
+    );
+
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+
+    border: 1px solid #ff9bde;
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 12px rgba(255, 66, 173, 0.35);
+
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#tour-screen .leaderboard-sidebar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 20px rgba(255, 66, 173, 0.65);
+}
+
+#tour-screen .leaderboard-sidebar-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   MOBILE - COMPACT LEADERBOARD BUTTON
+========================================== */
+
+
+@media (max-width: 650px) {
+
+    #tour-screen .game-sidebar {
+        padding: 8px 12px;
+    }
+
+    #tour-screen .game-sidebar > h3 {
+        margin: 5px 0;
+    }
+
+    #tour-screen .game-sidebar > p {
+        margin: 0;
+    }
+
+    #tour-screen .game-sidebar
+    > button[data-city] {
+        min-height: 32px;
+        height: 32px;
+        padding: 5px 3px;
+    }
+}
+
+
+/* ==========================================
+   SCORE + RANKING - CLEAN LAYOUT
+========================================== */
+
+#tour-screen .game-score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin: 10px 0 16px;
+}
+
+#tour-screen .game-score-row p {
+    margin: 0;
+    white-space: nowrap;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+#tour-screen .game-score-row .leaderboard-sidebar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    width: auto !important;
+    height: 35px;
+    min-height: 35px;
+    max-width: none;
+
+    margin: 0 !important;
+    padding: 7px 13px;
+
+    white-space: nowrap;
+    line-height: 1;
+    font-size: 12px;
+    font-weight: 700;
+
+    color: white;
+    background: rgba(151, 45, 132, 0.72);
+    border: 1px solid #ff75bc;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    #tour-screen .game-score-row {
+        margin: 5px 0 8px;
+        gap: 8px;
+    }
+
+    #tour-screen .game-score-row p {
+        font-size: 12px;
+    }
+
+    #tour-screen .game-score-row .leaderboard-sidebar-btn {
+        width: auto !important;
+        height: 29px;
+        min-height: 29px;
+        padding: 5px 10px;
+
+        font-size: 11px;
+        border-radius: 8px;
+        letter-spacing: 0;
+    }
+}
+
+/* ==========================================
+   MANIFEST RUSH - MOBILE SIDEBAR LAYOUT
+========================================== */
+
+@media (max-width: 650px) {
+
+    /* Main sidebar */
+    #tour-screen .game-sidebar {
+        display: flex !important;
+        flex-direction: column !important;
+
+        width: 100%;
+        height: auto;
+        min-height: 0;
+
+        padding: 14px 15px !important;
+        gap: 0;
+
+        background-color: #1d0b2d;
+        background-image: none !important;
+    }
+
+    /* Level heading */
+    #tour-screen .game-level-title {
+        display: block;
+        width: 100%;
+
+        margin: 0 0 15px !important;
+
+        color: #ff91d0;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.3;
+    }
+
+    /* Score left / Leaderboard right */
+    #tour-screen .game-score-row {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        margin: 0 0 16px !important;
+        gap: 10px;
+    }
+
+    /* Score */
+    #tour-screen .game-score-text {
+        margin: 0 !important;
+        padding: 0;
+
+        color: white;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* Leaderboard button */
+    #tour-screen .game-score-row
+    .leaderboard-sidebar-btn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+
+        flex: 0 0 auto;
+        width: auto !important;
+
+        height: 38px;
+        min-height: 38px;
+
+        margin: 0 !important;
+        padding: 7px 11px;
+
+        color: #fff;
+        background: #6b275e;
+
+        border: 1px solid #ff75bc;
+        border-radius: 11px;
+
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1;
+
+        letter-spacing: 0;
+        white-space: nowrap;
+
+        box-shadow: none;
+        transform: none;
+    }
+
+    /* Upcoming concerts heading */
+    #tour-screen .concerts-title {
+        display: block;
+        width: 100%;
+
+        margin: 0 0 10px !important;
+
+        color: #ff91d0;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    /* City buttons on same row */
+    #tour-screen .concert-city-list {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        gap: 9px;
+        width: 100%;
+    }
+
+    #tour-screen .concert-city-list button {
+        width: 100%;
+        height: 36px;
+        min-height: 36px;
+
+        margin: 0 !important;
+        padding: 6px 3px;
+
+        border: 1px solid #d164b1;
+        border-radius: 10px;
+
+        background: #402352;
+        color: white;
+
+        font-size: 12px;
+        text-align: center;
+    }
+}
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width: 360px) {
+
+    #tour-screen .game-sidebar {
+        padding: 10px !important;
+    }
+
+    #tour-screen .game-level-title {
+        font-size: 12px;
+    }
+
+    #tour-screen .game-score-row
+    .leaderboard-sidebar-btn {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    #tour-screen .concert-city-list {
+        gap: 6px;
+    }
+
+    #tour-screen .concert-city-list button {
+        font-size: 11px;
+    }
+}
+
+/* ==========================================
+   MOBILE - COMPACT SIDEBAR SPACING
+========================================== */
+
+@media (max-width: 650px) {
+
+    /* Sol menünün iç boşlukları */
+    #tour-screen .game-sidebar {
+        padding: 10px 14px !important;
+        gap: 0 !important;
+    }
+
+    /* LEVEL 1 başlığı */
+    #tour-screen .game-level-title {
+        margin: 0 0 6px !important;
+        padding: 0 !important;
+        line-height: 1.2;
+    }
+
+    /* Score + Leaderboard aynı satırda */
+    #tour-screen .game-score-row {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+
+        margin: 0 0 10px !important;
+        padding: 0 !important;
+        min-height: 30px;
+        gap: 8px;
+    }
+
+    /* Score */
+    #tour-screen .game-score-text {
+        margin: 0 !important;
+        font-size: 12px;
+    }
+
+    /* Leaderboard butonu */
+    #tour-screen .game-score-row
+    .leaderboard-sidebar-btn {
+        height: 30px;
+        min-height: 30px;
+        padding: 5px 10px;
+        margin: 0 !important;
+    }
+
+    /* Upcoming Concerts */
+    #tour-screen .concerts-title {
+        margin: 0 0 7px !important;
+        padding: 0 !important;
+    }
+
+    /* Şehir butonları */
+    #tour-screen .concert-city-list {
+        gap: 8px;
+    }
+}
+
+/* MOBILE - REDUCE SPACING */
+
+@media (max-width: 650px) {
+
+    /* LEVEL 1 ile Score arasındaki boşluk */
+    #tour-screen .game-level-title {
+        margin-bottom: 3px !important;
+    }
+
+    /* Score + Leaderboard satırının alt boşluğu */
+    #tour-screen .game-score-row {
+        margin-top: 0 !important;
+        margin-bottom: 6px !important;
+    }
+
+    /* Upcoming Concerts başlığının boşluğu */
+    #tour-screen .concerts-title {
+        margin-top: 0 !important;
+        margin-bottom: 6px !important;
+    }
+
+}
+
+/* ==========================================
+   MANIFEST RUSH - DYNAMIC MISSION GUIDE
+========================================== */
+
+#tour-screen .rush-map-help {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 800;
+
+    width: min(320px, 40%);
+
+    padding: 14px;
+
+    background: rgba(29, 11, 45, 0.95);
+    border: 1px solid var(--player-color, #ff75bc);
+    border-radius: 15px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+#tour-screen .mission-progress {
+    height: 4px;
+    width: 100%;
+    margin-bottom: 12px;
+
+    background: #523055;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#tour-screen #mission-progress-fill {
+    height: 100%;
+    width: 25%;
+    background: var(--player-color, #ff75bc);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+#tour-screen .mission-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#tour-screen .mission-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    background: rgba(255, 117, 188, 0.15);
+    border-radius: 11px;
+    font-size: 23px;
+}
+
+#tour-screen #mission-text {
+    margin: 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    #tour-screen .rush-map-help {
+        top: 8px;
+        right: 8px;
+
+        width: min(180px, 45%);
+        padding: 9px;
+        border-radius: 11px;
+    }
+
+    #tour-screen .mission-progress {
+        margin-bottom: 8px;
+    }
+
+    #tour-screen .mission-content {
+        gap: 7px;
+    }
+
+    #tour-screen .mission-icon {
+        width: 27px;
+        height: 27px;
+        font-size: 16px;
+        border-radius: 7px;
+    }
+
+    #tour-screen #mission-text {
+        font-size: 10px;
+        line-height: 1.35;
+    }
+}
+

@@ -39,6 +39,10 @@
             <button id="how-btn" class="secondary-button">
                 HOW TO PLAY
             </button>
+
+            <button id="leaderboard-home" class="secondary-button" type="button">
+                GLOBAL LEADERBOARD
+            </button>
         </div>
 
     </section>
@@ -126,6 +130,49 @@
 
 </section>
 
+
+<!-- GLOBAL LEADERBOARD SCREEN -->
+
+<section id="leaderboard-screen" class="screen">
+
+    <div class="account-card leaderboard-card">
+
+        <h1>🏆 GLOBAL LEADERBOARD</h1>
+
+        <p class="account-subtitle">
+            Compete with Manifest fans!
+        </p>
+
+        <p id="leaderboard-status" aria-live="polite">
+            Loading players...
+        </p>
+
+        <div class="leaderboard-table-wrap">
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>RANK</th>
+                        <th>PLAYER</th>
+                        <th>POINTS</th>
+                    </tr>
+                </thead>
+
+                <tbody id="leaderboard-body"></tbody>
+            </table>
+
+        </div>
+
+        <button
+            id="leaderboard-back"
+            class="main-button"
+            type="button">
+            ← BACK
+        </button>
+
+    </div>
+
+</section>
 
     <!-- 2. KARAKTER SEÇME EKRANI -->
     <section id="character-screen" class="screen">
@@ -304,71 +351,73 @@
 
         <div class="game-layout">
 
-            <aside class="game-sidebar">
-                <h3>LEVEL 1 - The First Concert</h3>
+            
+<aside class="game-sidebar">
 
-                <p>Score: <span id="score">0</span></p>
+    <div class="game-sidebar-top">
 
-                <h3>Upcoming Concerts</h3>
+        <h3 class="game-level-title">
+            LEVEL 1 - The First Concert
+        </h3>
 
-                <button data-city="istanbul">
-                    Istanbul
-                </button>
+        <div class="game-score-row">
 
-                <button data-city="ankara">
-                    Ankara
-                </button>
+            <p class="game-score-text">
+                Score: <span id="score">0</span>
+            </p>
 
-                <button data-city="izmir">
-                    Izmir
-                </button>
+            <button
+                id="leaderboard-game"
+                class="leaderboard-sidebar-btn"
+                type="button">
+                🏆 Leaderboard
+            </button>
 
-</aside> <!-- SIDEBAR ENDS HERE -->
+        </div>
+
+    </div>
+
+    <h3 class="concerts-title">
+        Upcoming Concerts
+    </h3>
+
+    <div class="concert-city-list">
+        <button data-city="istanbul">Istanbul</button>
+        <button data-city="ankara">Ankara</button>
+        <button data-city="izmir">Izmir</button>
+    </div>
+
+</aside>
+
 
 <div class="map-game-area">
 
     <div id="map"></div>
 
 
-<!-- ALWAYS VISIBLE GAME INSTRUCTIONS -->
-<aside class="rush-map-help" aria-label="How to play">
 
-    <h3>🎮 HOW TO PLAY</h3>
+<!-- DYNAMIC MISSION GUIDE -->
 
-    <div class="rush-map-help-step">
-        <strong>01 · STUDY THE MAP</strong>
-        <p>
-            İstanbul'a tıkla ve Gerçek rotayı 20 saniye incele.
-        </p>
+<aside class="rush-map-help" aria-label="Current mission">
+
+    <div class="mission-progress">
+        <div id="mission-progress-fill"></div>
     </div>
 
-    <div class="rush-map-help-step">
-        <strong>02 · GUESS THE ROUTE</strong>
-        <p>
-            Mesafe ve yürüme süresini tahmin et.
-        </p>
-    </div>
+    <div class="mission-content">
 
-    <div class="rush-map-help-step">
-        <strong>03 · WALK & COLLECT</strong>
-        <p>
-            Rotada ilerle ve iki yıldız
-            sorusunu cevapla.
-        </p>
-    </div>
+        <div class="mission-icon" id="mission-icon">
+            ⭐
+        </div>
 
-    <div class="rush-map-help-step">
-        <strong>04 · REACH JJ ARENA</strong>
-        <p>
-            Konsere ulaş ve puanını öğren.
+        <p id="mission-text">
+            EKRANDAKİ YILDIZA TIKLA
         </p>
-    </div>
 
-    <div class="rush-map-help-score">
-        🏆 MAX 400 POINTS
     </div>
 
 </aside>
+
    
 <!-- 20 SECOND MAP PREVIEW -->
 <div id="map-preview-panel" hidden>
